@@ -1,0 +1,48 @@
+{% extends "users/base.html" %}
+{% load blog_tags %}
+
+{% block title %}Affable Digital Services | Blog{% endblock %}
+
+{% block blog %}
+  {% include 'blogger_nav.html' %}
+{% endblock blog %}
+
+{% block blog_content %}
+  <div class="container">
+    <div class="row blog_content">
+      <div class="col-8">
+        <div id="content">
+          {% block blog_page %}
+          {% endblock blog_page %}
+        </div>
+      </div>
+
+      <div class="col-4">
+        {% if user.is_authenticated %}
+        <div id="sidebar">
+          <p>This is <b>{{ request.user }}</b> page on Affable Digital Services Website. <br>
+            {% if request.user.is_staff %}
+            I've written {% total_posts %} posts so far.
+          </p>
+          <p>
+            <a href="{% url 'blogger:post_feed' %}">Subscribe to my RSS feed</a>
+          </p>
+          {% endif %}
+          <h3>Latest posts</h3>
+          {% show_latest_posts 3 %}
+
+          <h3>Most commented posts</h3>
+          {% get_most_commented_posts as most_commented_posts %}
+          <ul>
+            {% for post in most_commented_posts %}
+            <li>
+              <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock blog_content %}

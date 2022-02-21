@@ -1,0 +1,102 @@
+{% extends 'users/base.html' %}
+
+{% block title %} Blog | Add New Post{% endblock title %}
+
+{% block content %}
+    <main>
+        <div class="hero-area2 d-flex align-items-center">
+            <div class="container">
+                <div class="row ">
+                    <div class="col-xl-12">
+                        <div class="hero-cap pt-50">
+                            <h2>Create New Post</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="contact-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="contact-title">Create A New Blog Post</h2>
+                        <div id="form-messages">
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <h2 style="text-align: center; background-color: red; color: white;">{{ message }}</h2>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <form class="form-contact contact_form" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-12" style="margin-bottom: 15px;">
+                                    <div class="form-group">
+                                        <label for="category">Choose A Category</label><br>
+                                        <select name="category" id="category">
+                                            {% for category in categories %}
+                                                <option value="{{ category }}">{{ category }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <input class="form-control" name="title" type="text" placeholder="Enter The Title Of Your Post">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="post_image">Add Image Caption To Your Post:</label>
+                                        <input class="form-control" name="post_image" id="post_image" type="file">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <textarea class="form-control w-100" name="body" cols="30" rows="9" placeholder="Write Your Post Here ..."></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="tags">Add Tags To Your Post (Separate by comma ','):</label>
+                                        <input class="form-control" name="tags" id="tags" type="text" placeholder="Add Tags To Your Post (Separate by comma ',')">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mt-3">
+                                <button type="submit" class="button button-contactForm boxed-btn">Add Post</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-3 offset-lg-1">
+                        <div class="media contact-info">
+                            <span class="contact-info__icon"><i class="ti-home"></i></span>
+                            <div class="media-body">
+                                <h3>Oyo State, Nigeria.</h3>
+                                <p>Onibuore Area, Monatan - Iyana Church Road, Ibadan.</p>
+                            </div>
+                        </div>
+                        <div class="media contact-info">
+                            <span class="contact-info__icon"><i class="ti-tablet"></i></span>
+                            <div class="media-body">
+                                <h3>+234 8187669362</h3>
+                                <h3>+234 9032055129</h3>
+                                <p>Mon to Sat 8am to 5pm</p>
+                            </div>
+                        </div>
+                        <div class="media contact-info">
+                            <span class="contact-info__icon"><i class="ti-email"></i></span>
+                            <div class="media-body">
+                                <h3><a href="mailto:akinade.mayowa@gmail.com">akinade.mayowa@gmail.com</a></h3>
+                                <p>Send us your query anytime!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock content %}

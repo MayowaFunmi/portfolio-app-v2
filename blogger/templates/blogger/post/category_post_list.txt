@@ -1,0 +1,21 @@
+{% extends "users/base.html" %}
+{% block blog_content %}
+<div class="col-md-8 offset-md-2">
+    <h1>{{ category | title }}.</h1>
+    <h2>Posts in the same category</h2>
+    <hr>
+    {% for post in posts %}
+        <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+        <p class="date">
+            Published {{ post.publish }} by {{ post.author.first_name }} {{ post.author.last_name }} |&nbsp;
+            Categories:&nbsp;
+            {% for category in post.categories.all %}
+            <a href="{% url 'blog:blog_category' category.name %}">
+                {{ category.name }}
+            </a>
+            {% endfor %}
+        </p>
+        <p>{{ post.body|safe }}</p>
+    {% endfor %}
+</div>
+{% endblock blog_content %}

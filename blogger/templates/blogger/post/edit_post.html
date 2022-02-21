@@ -1,0 +1,62 @@
+{% extends "blogger_base.html" %}
+{% block title %}Edit Blog Post{% endblock %}
+
+{% block blog_page %}
+    <h2>Edit Post</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            <label>Categories:</label>
+            <input type="text" name="categories" value="{{ post.categories }}" readonly>
+        </div>
+
+        <div>
+            <label>Title:</label>
+            <input type="text" name="title" value="{{ post.title }}" readonly>
+        </div>
+
+        <div>
+            <label>Body:</label>
+            <textarea name="body" rows="5" cols="50">{{ post.body }}</textarea>
+        </div>
+
+        <div>
+            <label>Current Image:</label>
+            <img src="{{ post.post_image.url }}" style="width: 200px; height: 200px; border-radius: 20px;" alt="No Post Image">
+            <label>Change Current Image:</label>
+            <input type="file" name="post_image">
+        </div>
+
+        <div>
+            <label>Tags:</label>
+            {% for tag in post.tags.all %}
+                <input type="text" value="{{ tag.name }}" readonly>
+            {% endfor %}
+        </div>
+        <p><input type="submit" value="Edit Post"></p>
+    </form>
+
+{% endblock blog_page %}
+
+<!--
+<form method="POST">
+        {% csrf_token %}
+        {{ post_form.media }}
+        {{ post_form.as_p }}
+        <p>
+            <label for="title">Title:</label>
+            <input type="text" name="title" maxlength="250" required id="title" style="width: 300px;">
+        </p>
+
+        <p>
+            <label for="body">Body:</label>
+            <textarea name="body" cols="40" rows="10" required id="body"></textarea>
+        </p>
+
+        <p>
+            <label for="tags">Tags:</label>
+            <input style="width: 300px;" type="text" name="tags" maxlength="250" id="tags" placeholder="separate each tags with a comma sign ',' ">
+        </p>
+        <p><input type="submit" value="Add Post"></p>
+    </form>
+-->
