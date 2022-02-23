@@ -1,0 +1,157 @@
+{% extends 'users/base.html' %} {% block title %} Portfolio | Create Personal Profile Form{% endblock title %} {% block content %}
+<main>
+    <div class="hero-area2 d-flex align-items-center">
+        <div class="container">
+            <div class="row ">
+                <div class="col-xl-12">
+                    <div class="hero-cap pt-50">
+                        <h2>User Profile Form</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="contact-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="contact-title">Please fill the form below to create a profile</h2>
+                    <div id="form-messages">
+                        {% if messages %} {% for message in messages %}
+                        <h2 style="text-align: center; background-color: red; color: white;">{{ message }}</h2>
+                        {% endfor %} {% endif %}
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <form class="form-contact contact_form" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="name">User:</label>
+                                    <input id="name" class="form-control" value="{{ user.first_name }} {{ user.last_name }} ({{ user.email }})" type="text" readonly>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>Gender:</label>
+                                <div class="form-group">
+                                    <select name="gender" class="form-control">
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                        </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Date Of Birth:</label>
+                                    <input type="date" name="date_of_birth" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>Your Country:</label>
+                                <div class="form-group">
+                                    <select name="country" id="country_name" class="form-control">
+                                            {% for country in countries %}
+                                                <option value="{{ country.id}}">{{ country.alpha_2 }} - {{ country.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>Your State / City:</label>
+                                <div class="form-group">
+                                    <select name="city" id="city_name" class="form-control">
+                                        
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+
+
+
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <input class="form-control" name="email" id="email" type="email" placeholder="Enter Your Email Address">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input class="form-control valid" name="first_name" id="first_name" type="text" placeholder="Enter Your First Name">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input class="form-control valid" name="last_name" id="last_name" type="text" placeholder="Enter Your Surname">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input class="form-control valid" name="password" id="password" type="password" placeholder="Enter Your Password">
+                                    <div class="switch-wrap d-flex justify-content-between">
+                                        <p style="margin-top: 10px;">Show Password</p>
+                                        <div class="confirm-switch">
+                                            <input type="checkbox" id="confirm-switch" onclick="showPassword()">
+                                            <label for="confirm-switch" style="margin-top: 10px;"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input class="form-control valid" name="password1" id="password1" type="password" placeholder="Enter Your Password Again">
+                                    <div class="switch-wrap d-flex justify-content-between">
+                                        <p style="margin-top: 10px;">Show Password</p>
+                                        <div class="confirm-switch">
+                                            <input type="checkbox" id="checkbox-default" onclick="showPassword1()">
+                                            <label for="checkbox-default" style="margin-top: 10px;"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mt-3">
+                            <button type="submit" class="button button-contactForm boxed-btn">Send</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-3 offset-lg-1">
+                    <div class="media contact-info">
+                        <span class="contact-info__icon"><i class="ti-home"></i></span>
+                        <div class="media-body">
+                            <h3>Oyo State, Nigeria.</h3>
+                            <p>Onibuore Area, Monatan - Iyana Church Road, Ibadan.</p>
+                        </div>
+                    </div>
+                    <div class="media contact-info">
+                        <span class="contact-info__icon"><i class="ti-tablet"></i></span>
+                        <div class="media-body">
+                            <h3>+234 8187669362</h3>
+                            <h3>+234 9032055129</h3>
+                            <p>Mon to Sat 8am to 5pm</p>
+                        </div>
+                    </div>
+                    <div class="media contact-info">
+                        <span class="contact-info__icon"><i class="ti-email"></i></span>
+                        <div class="media-body">
+                            <h3><a href="mailto:akinade.mayowa@gmail.com">akinade.mayowa@gmail.com</a></h3>
+                            <p>Send us your query anytime!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock content %}

@@ -1688,6 +1688,18 @@ def add_project(request):
 
 
 # create profile view
+
+@login_required
+def profile_create_view(request):
+    user = User.objects.get(email=request.user)
+    countries = Country.objects.all()
+    context = {
+        'user': user,
+        'countries': countries
+    }
+    return render(request, 'users/create_profile.html', context)
+
+'''
 @login_required
 def profile_create_view(request):
     form = ProfileForm()
@@ -1697,6 +1709,7 @@ def profile_create_view(request):
             form.save(commit=True)
             return render(request, 'users/user_created.html')
     return render(request, 'users/create_profile.html', {'form': form})
+'''
 
 
 def profile_details(request, id):

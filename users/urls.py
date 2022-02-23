@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from . import views, ajax_views
 
 app_name = 'users'
 
@@ -17,4 +17,5 @@ urlpatterns = [
     path('contact_me/', views.contact_me, name='contact_me'),
     path('add_project/', views.add_project, name='add_project'),
     path('project_details/<int:id>/<str:slug>/', views.project_details, name='project_details'),
+    path('get_city_by_country/', ajax_views.get_city_by_country, name='get_city_by_country'),
 ]
