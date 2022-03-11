@@ -36,14 +36,14 @@
                                 </div>
                                 <div class="blog_details">
                                     <a class="d-inline-block" href="{{ post.get_absolute_url }}">
-                                        <h2 class="blog-head" style="color: #2d2d2d;">{{ post.title }}</h2>
+                                        <h2 class="blog-head" style="color: #2d2d2d;">{{ post.title|title }}</h2>
                                     </a>
                                     <p>
                                         {{ post.body | slice:":150" }} ...
                                         <a href="{{ post.get_absolute_url }}" class="blog_tag" style="background-color: #ff8553; color: #fff; border-radius: 10px;">Read More...</a>
                                     </p>
                                     <ul class="blog-info-link">
-                                        <li><a href="#"><i class="fa fa-user"></i>{{ post.author.first_name }} {{ post.author.last_name }}</a></li>
+                                        <li><a href="{% url 'users:user_profile' post.author.id %}"><i class="fa fa-user"></i>{{ post.author.first_name }} {{ post.author.last_name }}</a></li>
                                         {% for category in post.categories.all %}
                                             <li><a href="{% url 'blogger:post_category' category.name %}"><i class="fas fa-user-tag"></i>{{ category.name }}</a></li>
                                         {% endfor %}
@@ -56,7 +56,10 @@
                                         {% else %}
                                             <li><i class="fa fa-comments"></i>0 Comment</li>
                                         {% endif %}
-                                        <li><a href="#"><i class="fas fa-thumbs-up"></i>3 Likes</a></li>
+                                        <li>
+                                            <i class="fas fa-thumbs-up"></i>
+                                            {{ post.total_likes }} Like{{ post.total_likes|pluralize }}
+                                        </li>
                                     </ul>
                                     <h4 class="widget_title" style="color: #2d2d2d;">Tags:</h4>
                                     <ul class="list">
@@ -93,20 +96,21 @@
                             </nav>
                         </div>
                     </div>
+                    
                     <div class="col-lg-4">
                         <div class="blog_right_sidebar">
                             <aside class="single_sidebar_widget search_widget">
-                                <form action="#">
+                                <form method="post">
+                                    {% csrf_token %}
                                     <div class="form-group">
                                         <div class="input-group mb-3">
-                                            <input type="text" class="form-control" placeholder='Search Keyword'>
+                                            <input type="text" class="form-control" placeholder='Search Blog Posts' name="q" required>
                                             <div class="input-group-append">
                                                 <button class="btns" type="button"><i class="ti-search"></i></button>
                                             </div>
                                         </div>
                                     </div>
-                                    <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
-                                        type="submit">Search</button>
+                                    <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn" type="submit" name="submit">Search</button>
                                 </form>
                             </aside>
                             <aside class="single_sidebar_widget tag_cloud_widget">
@@ -146,15 +150,7 @@
                             </aside>
                             <aside class="single_sidebar_widget newsletter_widget">
                                 <h4 class="widget_title" style="color: #2d2d2d;">Newsletter</h4>
-                                <form action="#">
-                                    <div class="form-group">
-                                        <input type="email" class="form-control" onfocus="this.placeholder = ''"
-                                            onblur="this.placeholder = 'Enter email'" placeholder='Enter email'
-                                            required>
-                                    </div>
-                                    <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
-                                        type="submit">Subscribe</button>
-                                </form>
+                                
                             </aside>
                         </div>
                     </div>

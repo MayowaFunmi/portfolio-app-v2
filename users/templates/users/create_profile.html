@@ -24,12 +24,12 @@
                     </div>
                 </div>
                 <div class="col-lg-8">
-                    <form class="form-contact contact_form" method="post">
+                    <form class="form-contact contact_form" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label for="name">User:</label>
+                                    <label for="name">Your Name:</label>
                                     <input id="name" class="form-control" value="{{ user.first_name }} {{ user.last_name }} ({{ user.email }})" type="text" readonly>
                                 </div>
                             </div>
@@ -68,61 +68,41 @@
                                     </select>
                                 </div>
                             </div>
-
-
-
-
-
-
-
-
-
-
-
+                            
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input class="form-control valid" name="address" type="text" placeholder="Enter Your Address" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input class="form-control valid" name="phone_number" type="number" placeholder="Enter Your Phone Number" required>
+                                </div>
+                            </div>
+                            
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Your Photo:</label>
+                                    <input type="file" name="profile_picture" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Area Of Interest:</label>
+                                    <input class="form-control valid" name="interest" type="text" placeholder="Content/topic you'll like to post or read about on this blog?" required>
+                                </div>
+                            </div>
+                            
                             <div class="col-12">
                                 <div class="form-group">
-                                    <input class="form-control" name="email" id="email" type="email" placeholder="Enter Your Email Address">
+                                    <label>About You:</label>
+                                    <textarea class="form-control w-100" name="about_me" cols="30" rows="9" placeholder="Write something about yourself not more than 300 words ..." required></textarea>
                                 </div>
                             </div>
-
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <input class="form-control valid" name="first_name" id="first_name" type="text" placeholder="Enter Your First Name">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <input class="form-control valid" name="last_name" id="last_name" type="text" placeholder="Enter Your Surname">
-                                </div>
-                            </div>
-
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <input class="form-control valid" name="password" id="password" type="password" placeholder="Enter Your Password">
-                                    <div class="switch-wrap d-flex justify-content-between">
-                                        <p style="margin-top: 10px;">Show Password</p>
-                                        <div class="confirm-switch">
-                                            <input type="checkbox" id="confirm-switch" onclick="showPassword()">
-                                            <label for="confirm-switch" style="margin-top: 10px;"></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <input class="form-control valid" name="password1" id="password1" type="password" placeholder="Enter Your Password Again">
-                                    <div class="switch-wrap d-flex justify-content-between">
-                                        <p style="margin-top: 10px;">Show Password</p>
-                                        <div class="confirm-switch">
-                                            <input type="checkbox" id="checkbox-default" onclick="showPassword1()">
-                                            <label for="checkbox-default" style="margin-top: 10px;"></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            
                         </div>
                         <div class="form-group mt-3">
-                            <button type="submit" class="button button-contactForm boxed-btn">Send</button>
+                            <button type="submit" class="button button-contactForm boxed-btn">Create Profile</button>
                         </div>
                     </form>
                 </div>

@@ -31,7 +31,7 @@ class EditPostForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ('name', 'email', 'body')
+        fields = ('name', 'body')
 
 
 class SearchForm(forms.Form):

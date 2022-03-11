@@ -1,0 +1,75 @@
+{% extends 'users/base.html' %}
+
+{% block title %} User Profile | Profile Details {% endblock title %}
+
+{% block content %}
+    <main>
+        <div class="hero-area2 d-flex align-items-center">
+            <div class="container">
+                <div class="row ">
+                    <div class="col-xl-12">
+                        <div class="hero-cap pt-50">
+                            <h2>User Profile Details</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <section class="contact-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="section-top-border">
+                            <h3>Author's Profile Details:</h3>
+                            <div class="">
+                                <ul class="unordered-list">
+                                    <li><strong>Email: </strong>{{ user.email }}</li>
+                                    <li><strong>First Name: </strong>{{ user.first_name }}</li>
+                                    <li><strong>Last Name: </strong>{{ user.last_name }}</li>
+                                    <li><strong>Gender: </strong>{{ profile.gender }}</li>
+                                    <li><strong>Date Of Birth: </strong>{{ profile.date_of_birth }}</li>
+                                    <li><strong>Country: </strong>{{ profile.country }}</li>
+                                    <li><strong>City/State/Province: </strong>{{ profile.city }}</li>
+                                    <li><strong>Address: </strong>{{ profile.address }}</li>
+                                    <li><strong>Phone Number: </strong>{{ profile.phone_number }}</li>
+                                    <li><strong>Interest: </strong>{{ profile.interest }}</li>
+                                    <li><strong>Profile Date Created: </strong>{{ profile.created }}</li>
+                                    <li><strong>Date Joined: </strong>{{ user.date_joined }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-3 offset-lg-1">
+                        <div>
+                            Photo: <img src="{{ profile.profile_picture.url }}">
+                        </div>
+                        <div class="media contact-info">
+                            <span class="contact-info__icon"><i class="ti-home"></i></span>
+                            <div class="media-body">
+                                <h3>Oyo State, Nigeria.</h3>
+                                <p>Onibuore Area, Monatan - Iyana Church Road, Ibadan.</p>
+                            </div>
+                        </div>
+                        <div class="media contact-info">
+                            <span class="contact-info__icon"><i class="ti-tablet"></i></span>
+                            <div class="media-body">
+                                <h3>+234 8187669362</h3>
+                                <h3>+234 9032055129</h3>
+                                <p>Mon to Sat 8am to 5pm</p>
+                            </div>
+                        </div>
+                        <div class="media contact-info">
+                            <span class="contact-info__icon"><i class="ti-email"></i></span>
+                            <div class="media-body">
+                                <h3><a href="mailto:akinade.mayowa@gmail.com">akinade.mayowa@gmail.com</a></h3>
+                                <p>Send us your query anytime!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock content %}

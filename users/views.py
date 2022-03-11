@@ -1692,13 +1692,67 @@ def add_project(request):
 @login_required
 def profile_create_view(request):
     user = User.objects.get(email=request.user)
-    countries = Country.objects.all()
+    countries = Country.objects.all().order_by('alpha_2')
     context = {
         'user': user,
         'countries': countries
     }
+
+    if request.method == 'POST':
+        gender = request.POST['gender']
+        date_of_birth = request.POST['date_of_birth']
+        country_id = request.POST['country']
+        city_id = request.POST['city']
+        address = request.POST['address']
+        phone_number = request.POST['phone_number']
+        profile_picture = request.FILES['profile_picture']
+        interest = request.POST['interest']
+        about_me = request.POST['about_me']
+
+        country = Country.objects.get(id=country_id)
+        city = City.objects.get(id=city_id)
+
+        profile = Profile.objects.get(user=user)
+        profile.gender = gender
+        profile.date_of_birth = date_of_birth
+        profile.country = country
+        profile.city = city
+        profile.address = address
+        profile.phone_number = phone_number
+        profile.profile_picture = profile_picture
+        profile.interest = interest
+        profile.about_me = about_me
+        profile.save()
+        return HttpResponseRedirect('/users/display_profile/')
+
     return render(request, 'users/create_profile.html', context)
 
+
+@login_required
+def display_profile(request):
+    user = User.objects.get(email=request.user)
+    profile = Profile.objects.get(user=request.user)
+    if profile.date_of_birth is None:
+        messages.info(request, 'You have no profile yet. Please create your profile.')
+        return HttpResponseRedirect('/users/add_profile/')
+    else:
+        context = {
+            'email': request.user, 'gender': profile.gender, 'date_of_birth': profile.date_of_birth, 'country': profile.country,
+            'city': profile.city, 'address': profile.address, 'phone_number': profile.phone_number, 'profile_picture': profile.profile_picture,
+            'interest': profile.interest, 'about_me': profile.about_me, 'created': profile.created, 'updated': profile.updated,
+            'first_name': user.first_name, 'last_name': user.last_name, 'date_joined': user.date_joined
+        }
+        return render(request, 'users/display_profile.html', context)
+
+
+def user_profile(request, id):
+    user = get_object_or_404(User, id=id)
+    profile = Profile.objects.get(user=user)
+    context = {
+        'user': user,
+        'profile': profile
+    }
+    return render(request, 'users/user_profile.html', context)
 '''
 @login_required
 def profile_create_view(request):

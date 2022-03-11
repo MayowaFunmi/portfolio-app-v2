@@ -4,9 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.core.mail import send_mail
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 #from taggit.models import Tag
 from .forms import PostForm, CommentForm, EmailPostForm
@@ -40,7 +40,7 @@ def post_create(request):
         new_post.save()
         new_post.categories.add(category)
         new_post.tags.set(tags_objs)
-        return HttpResponse('Blog Posted')
+        return HttpResponseRedirect('/blogger/')
     context = {
         'categories': categories,
         'tags': tags
@@ -57,6 +57,26 @@ def post_list(request):
     categories = Category.objects.all()
     tags = Tag.objects.all()
 
+    if request.method == 'POST':
+        query = request.POST.get('q', None)
+        submit_button = request.POST.get('submit')
+
+        if query is not None:
+            lookups = Q(title__icontains=query) | Q(body__icontains=query)
+            all_results = Post.objects.filter(lookups).distinct()
+            res_paginator = Paginator(all_results, 2)
+            res_page = request.GET.get('page')
+            results = res_paginator.get_page(res_page)
+            context = {
+                'query': query,
+                'results': results,
+                'submit_button': submit_button,
+                'tags': tags,
+                'categories': categories,
+                'all_results': all_results
+            }
+            return render(request, 'blogger/post/search_results.html', context)
+
     context = {
         'posts': posts,
         'tags': tags,
@@ -66,6 +86,31 @@ def post_list(request):
         'slug': all_posts[0].slug,
     }
     return render(request, 'blogger/post/list.html', context)
+
+
+def post_detail_search(request):
+    categories = Category.objects.all()
+    tags = Tag.objects.all()
+    if request.method == 'POST':
+        query = request.POST.get('q', None)
+        submit_button = request.POST.get('submit')
+
+        if query is not None:
+            lookups = Q(title__icontains=query) | Q(body__icontains=query)
+            all_results = Post.objects.filter(lookups).distinct()
+            res_paginator = Paginator(all_results, 2)
+            res_page = request.GET.get('page')
+            results = res_paginator.get_page(res_page)
+            context = {
+                'query': query,
+                'results': results,
+                'submit_button': submit_button,
+                'tags': tags,
+                'categories': categories,
+                'all_results': all_results
+            }
+            return render(request, 'blogger/post/search_results.html', context)
+
 # list blog posts
 '''def post_list(request, tag_slug=None):
     object_list = Post.published.all()
@@ -94,9 +139,11 @@ def post_list(request):
     })
 '''
 
+
 # blog post details
 def post_detail(request, id, year, month, day, posts):
     categories = Category.objects.all()
+    tags = Tag.objects.all()
     post = get_object_or_404(Post, id=id, slug=posts,
                              status='published',
                              publish__year=year,
@@ -106,20 +153,16 @@ def post_detail(request, id, year, month, day, posts):
     if post.likes.filter(id=request.user.id).exists():
         liked = True
     # List of active comments for this post
-    comments = post.comments.filter(active=True)
-    new_comment = None
+    comments = post.comments.filter(active=True).order_by('-created')
     if request.method == 'POST':
-        # A comment was posted
-        comment_form = CommentForm(data=request.POST)
-        if comment_form.is_valid():
-            # Create Comment object but don't save to database yet
-            new_comment = comment_form.save(commit=False)
-            # Assign the current post to the comment
-            new_comment.post = post
-            # Save the comment to the database
-            new_comment.save()
-    else:
-        comment_form = CommentForm()
+        name = request.POST['name']
+        email = request.POST['email']
+        body = request.POST['body']
+
+        new_comment = Comment(post=post, name=name, email=email, body=body)
+        new_comment.save()
+        return HttpResponseRedirect('/blogger/')
+
     # List of similar posts
     post_tags_ids = post.tags.values_list('id', flat=True)
     similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(id=post.id)
@@ -127,43 +170,27 @@ def post_detail(request, id, year, month, day, posts):
     return render(request, 'blogger/post/detail.html', {
         'post': post,
         'comments': comments,
-        'new_comment': new_comment,
-        'comment_form': comment_form,
         'similar_posts': similar_posts,
         'liked': liked,
-        'categories': categories
+        'categories': categories,
+        'tags': tags
     })
 
 
 # edit blog post
 @login_required
-def post_edit(request, id):
-    post = get_object_or_404(Post, id=id)
-    tag = post.tags.name
-    print(tag)
-    #post_form = PostForm(data=request.POST, files=request.FILES, instance=post)
+def post_edit(request, id, slug):
+    post = get_object_or_404(Post, id=id, slug=slug)
     if request.method == 'POST':
         title = request.POST['title']
         body = request.POST['body']
         post_image = request.FILES['post_image']
-        '''
-        post_form = Post(
-            slug=post.slug,
-            author=request.user,
-            title=title,
-            body=body,
-            categories=post.categories,
-            post_image=post_image
-        )
-        post_form.save()
-        post.delete()
-        '''
         post.title = title
         post.body = body
         post.post_image = post_image
         post.save()
         return HttpResponseRedirect('/blogger/')
-    return render(request, 'blogger/post/edit_post.html', {'post': post, 'id': id})
+    return render(request, 'blogger/post/edit_post.html', {'post': post, 'id': id, 'slug': slug})
 
 
 @login_required
@@ -214,9 +241,20 @@ def post_category(request, cats):
     return render(request, "blogger/post/category_post_list.html", {'cats': cats, 'category_posts': category_posts})
 
 
-def post_tags(request, tags):
-    tags_posts = Post.objects.filter(tags__title=tags).order_by('-publish')
-    return render(request, "blogger/post/tag_post_list.html", {'tags': tags, 'tags_posts': tags_posts})
+def post_tags(request, tag):
+    posts = Post.objects.filter(tags__title=tag).order_by('-publish')
+    paginator = Paginator(posts, 2)
+    page = request.GET.get('page')
+    tags_posts = paginator.get_page(page)
+    categories = Category.objects.all()
+    tags = Tag.objects.all()
+    context = {
+        'tags': tags,
+        'tags_posts': tags_posts,
+        'categories': categories
+    }
+
+    return render(request, "blogger/post/tag_post_list.html", context)
 
 
 #@login_required
@@ -231,6 +269,19 @@ def blog_category(request, category):
         "posts": posts
     }
     return render(request, "blogger/post/category_post_list.html", context)
+
+
+@login_required
+def post_delete(request, id, slug):
+    post = get_object_or_404(Post, id=id, slug=slug)
+    if request.method == 'POST':
+        ask = request.POST['ask']
+        if ask == 'Yes':
+            post.delete()
+            return redirect('/blogger/')
+        elif ask == 'No':
+            return redirect('/blogger/')
+    return render(request, 'blogger/post/post_delete.html', {'post': post})
 
 
 def like_view(request, id, year, month, day, posts):

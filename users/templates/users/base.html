@@ -30,7 +30,7 @@
                                 <ul id="navigation">
                                     <li><a href="{% url 'home' %}">Home</a></li>
                                     <li><a href="work.html">work</a></li>
-                                    <li><a href="service.html">service</a></li>
+                                    <li><a href="{% url 'users:display_profile' %}">Profile</a></li>
                                     <li><a href="#">Blog</a>
                                         <ul class="submenu">
                                             <li><a href="{% url 'blogger:post_list' %}">All Posts</a></li>
@@ -55,7 +55,14 @@
                         </div>
 
                         <div class="col-12">
-                            <div class="mobile_menu d-block d-lg-none"></div>
+                            <!--mobile_menu d-block d-lg-none-->
+                            <div class="mobile_menu d-block d-lg-none">
+                                {% if request.user.is_authenticated %}
+                                    <h2>You are logged in as {{ request.user }}</h2>
+                                {% else %}
+                                    <h2>You are logged out!!!</h2>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>

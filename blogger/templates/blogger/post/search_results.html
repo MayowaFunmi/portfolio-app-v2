@@ -1,7 +1,7 @@
 {% extends 'users/base.html' %}
 {% load blog_tags %}
 
-{% block title %} Blog Post | Tags {% endblock title %}
+{% block title %} Portfolio | Post Search Result{% endblock title %}
 
 {% block content %}
     <main>
@@ -11,20 +11,22 @@
                 <div class="row ">
                     <div class="col-xl-12">
                         <div class="hero-cap pt-50">
-                            <h2>Tags Post List</h2>
+                            <h2>Blog Post Search Results</h2>
+                            <h2 style="text-transform: none;">{{ all_results.count }} post{{ all_results.count|pluralize }} found for "{{ query }}": </h2>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
+
+
         <section class="blog_area section-padding">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-8 mb-5 mb-lg-0">
                         <div class="blog_left_sidebar">
-                            {% if tags_posts %}
-                            {% for post in tags_posts %}
+                            {% if results %}
+                            {% for post in results %}
                             <article class="blog_item">
                                 <div class="blog_item_img">
                                     {% if post.post_image %}
@@ -35,7 +37,7 @@
                                 </div>
                                 <div class="blog_details">
                                     <a class="d-inline-block" href="{{ post.get_absolute_url }}">
-                                        <h2 class="blog-head" style="color: #2d2d2d;">{{ post.title|title }}</h2>
+                                        <h2 class="blog-head" style="color: #2d2d2d;">{{ post.title }}</h2>
                                     </a>
                                     <p>
                                         {{ post.body | slice:":150" }} ...
@@ -74,19 +76,19 @@
                             {% endif %}
                             <nav class="blog-pagination justify-content-center d-flex">
                                 <ul class="pagination">
-                                    {% if tags_posts.has_previous %}
+                                    {% if results.has_previous %}
                                     <li class="page-item">
-                                        <a href="?page={{ tags_posts.previous_page_number }}" class="page-link" aria-label="Previous">
+                                        <a href="?page={{ results.previous_page_number }}" class="page-link" aria-label="Previous">
                                             <i class="fas fa-angle-left"></i>
                                         </a>
                                     </li>
                                     {% endif %}
                                     <li class="page-item active">
-                                        Page {{ tags_posts.number }} of {{ tags_posts.paginator.num_pages }}.
+                                        Page {{ results.number }} of {{ results.paginator.num_pages }}.
                                     </li>
-                                    {% if tags_posts.has_next %}
+                                    {% if results.has_next %}
                                     <li class="page-item">
-                                        <a href="?page={{ tags_posts.next_page_number }}" class="page-link" aria-label="Next">
+                                        <a href="?page={{ results.next_page_number }}" class="page-link" aria-label="Next">
                                             <i class="fas fa-angle-right"></i>
                                         </a>
                                     </li>
@@ -95,12 +97,10 @@
                             </nav>
                         </div>
                     </div>
-                    
                     <div class="col-lg-4">
                         <div class="blog_right_sidebar">
                             <aside class="single_sidebar_widget search_widget">
                                 <form method="post">
-                                    {% csrf_token %}
                                     <div class="form-group">
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" placeholder='Search Blog Posts' name="q" required>
@@ -149,24 +149,21 @@
                             </aside>
                             <aside class="single_sidebar_widget newsletter_widget">
                                 <h4 class="widget_title" style="color: #2d2d2d;">Newsletter</h4>
-                                
+                                <form action="#">
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" onfocus="this.placeholder = ''"
+                                            onblur="this.placeholder = 'Enter email'" placeholder='Enter email'
+                                            required>
+                                    </div>
+                                    <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
+                                        type="submit">Subscribe</button>
+                                </form>
                             </aside>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-    </main>
 
-    <!--
-    <div>
-    {% for post in tags_posts %}
-        <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
-        <p class="date">
-            Published {{ post.publish }} by {{ post.author.first_name }} {{ post.author.last_name }} |&nbsp;
-        </p>
-        <p>{{ post.body|safe }}</p>
-    {% endfor %}
-    </div>
-    -->
+    </main>
 {% endblock content %}

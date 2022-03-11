@@ -1,62 +1,108 @@
-{% extends "blogger_base.html" %}
-{% block title %}Edit Blog Post{% endblock %}
+{% extends 'users/base.html' %}
 
-{% block blog_page %}
-    <h2>Edit Post</h2>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div>
-            <label>Categories:</label>
-            <input type="text" name="categories" value="{{ post.categories }}" readonly>
+{% block title %} Blog | Edit Post{% endblock title %}
+
+{% block content %}
+    <main>
+        <div class="hero-area2 d-flex align-items-center">
+            <div class="container">
+                <div class="row ">
+                    <div class="col-xl-12">
+                        <div class="hero-cap pt-50">
+                            <h2>Edit Post - {{ post.title }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div>
-            <label>Title:</label>
-            <input type="text" name="title" value="{{ post.title }}" readonly>
-        </div>
-
-        <div>
-            <label>Body:</label>
-            <textarea name="body" rows="5" cols="50">{{ post.body }}</textarea>
-        </div>
-
-        <div>
-            <label>Current Image:</label>
-            <img src="{{ post.post_image.url }}" style="width: 200px; height: 200px; border-radius: 20px;" alt="No Post Image">
-            <label>Change Current Image:</label>
-            <input type="file" name="post_image">
-        </div>
-
-        <div>
-            <label>Tags:</label>
-            {% for tag in post.tags.all %}
-                <input type="text" value="{{ tag.name }}" readonly>
-            {% endfor %}
-        </div>
-        <p><input type="submit" value="Edit Post"></p>
-    </form>
-
-{% endblock blog_page %}
-
-<!--
-<form method="POST">
-        {% csrf_token %}
-        {{ post_form.media }}
-        {{ post_form.as_p }}
-        <p>
-            <label for="title">Title:</label>
-            <input type="text" name="title" maxlength="250" required id="title" style="width: 300px;">
-        </p>
-
-        <p>
-            <label for="body">Body:</label>
-            <textarea name="body" cols="40" rows="10" required id="body"></textarea>
-        </p>
-
-        <p>
-            <label for="tags">Tags:</label>
-            <input style="width: 300px;" type="text" name="tags" maxlength="250" id="tags" placeholder="separate each tags with a comma sign ',' ">
-        </p>
-        <p><input type="submit" value="Add Post"></p>
-    </form>
--->
+        <section class="contact-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="contact-title">Edit Post - {{ post.title }}</h2>
+                        <div id="form-messages">
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <h2 style="text-align: center; background-color: red; color: white;">{{ message }}</h2>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <form class="form-contact contact_form" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-12" style="margin-bottom: 15px;">
+                                    {% for category in post.categories.all %}
+                                    <div class="form-group">
+                                        <input class="form-control" type="text"  value="Category - {{ category.name }}" readonly>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <input class="form-control" name="title" type="text" value="{{ post.title }}">
+                                    </div>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="post_image">Current Post Image:</label>
+                                        <img src="{{ post.post_image.url }}" style="width: 150px; height: 150px;"><br>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="post_image">Need To Change Post Image?:</label>
+                                        <input class="form-control" name="post_image" id="post_image" type="file">
+                                    </div>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <textarea class="form-control w-100" name="body" cols="30" rows="9">{{ post.body }}</textarea>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    {% for tag in post.tags.all %}
+                                    <div class="form-group">
+                                        <input class="form-control" type="text"  value="Tag - {{ tag.title }}" readonly>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="form-group mt-3">
+                                <button type="submit" class="button button-contactForm boxed-btn">Edit Post</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-3 offset-lg-1">
+                        <div class="media contact-info">
+                            <span class="contact-info__icon"><i class="ti-home"></i></span>
+                            <div class="media-body">
+                                <h3>Oyo State, Nigeria.</h3>
+                                <p>Onibuore Area, Monatan - Iyana Church Road, Ibadan.</p>
+                            </div>
+                        </div>
+                        <div class="media contact-info">
+                            <span class="contact-info__icon"><i class="ti-tablet"></i></span>
+                            <div class="media-body">
+                                <h3>+234 8187669362</h3>
+                                <h3>+234 9032055129</h3>
+                                <p>Mon to Sat 8am to 5pm</p>
+                            </div>
+                        </div>
+                        <div class="media contact-info">
+                            <span class="contact-info__icon"><i class="ti-email"></i></span>
+                            <div class="media-body">
+                                <h3><a href="mailto:akinade.mayowa@gmail.com">akinade.mayowa@gmail.com</a></h3>
+                                <p>Send us your query anytime!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock content %}
