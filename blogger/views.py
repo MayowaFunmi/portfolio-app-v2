@@ -237,8 +237,20 @@ def post_search(request):
 
 
 def post_category(request, cats):
-    category_posts = Post.objects.filter(categories__name=cats).order_by('-publish')
-    return render(request, "blogger/post/category_post_list.html", {'cats': cats, 'category_posts': category_posts})
+    posts = Post.objects.filter(categories__name=cats).order_by('-publish')
+    paginator = Paginator(posts, 2)
+    page = request.GET.get('page')
+    category_posts = paginator.get_page(page)
+    categories = Category.objects.all()
+    tags = Tag.objects.all()
+    context = {
+        'cats': cats,
+        'category_posts': category_posts,
+        'categories': categories,
+        'tags': tags,
+        'posts': posts
+    }
+    return render(request, "blogger/post/category_post_list.html", context)
 
 
 def post_tags(request, tag):
@@ -251,7 +263,9 @@ def post_tags(request, tag):
     context = {
         'tags': tags,
         'tags_posts': tags_posts,
-        'categories': categories
+        'categories': categories,
+        'posts': posts,
+        'tag': tag
     }
 
     return render(request, "blogger/post/tag_post_list.html", context)

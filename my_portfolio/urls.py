@@ -30,6 +30,7 @@ urlpatterns = [
     path('', home, name='home'),
     path('users/', include('users.urls', namespace='users')),
     path('blogger/', include('blogger.urls', namespace='blogger')),
+    path('weather/', include('scrapper.urls', namespace='scrapper')),
     path('sitemap.xml/', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap')
 ]
 if settings.DEBUG:

@@ -142,6 +142,22 @@ class Project(models.Model):
         return self.name
 
 
+class ProjectComment(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='projects')
+    name = models.CharField(max_length=250)
+    email = models.EmailField(max_length=250)
+    body = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ('created',)
+
+    def __str__(self):
+        return f'Comment by {self.name} on {self.project}'
+
+
 class ContactMe(models.Model):
     full_name = models.CharField(max_length=100)
     email = models.EmailField()

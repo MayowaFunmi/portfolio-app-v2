@@ -2,12 +2,13 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.template.loader import render_to_string
 from .forms import CustomUserCreationForm, LoginForm, ContactMeForm, AddProjectForm, ProfileForm
-from .models import Country, City, Profile, Project
+from .models import Country, City, Profile, Project, ProjectComment
 from .models import UserAccount as User
-
+from blogger.models import Post
 
 all_countries = [
     ['AW', 'Aruba'],
@@ -1579,13 +1580,43 @@ def load_cities(request):
 
 
 def home(request):
-    all_projects = Project.objects.all()
-    return render(request, 'users/base.html', {'all_projects': all_projects})
+    all_projects = Project.objects.all().order_by('-id')[:2]
+    total_data = Project.objects.count()
+    latest_posts = Post.published.order_by('-publish')[:2]
+    context = {
+        'all_projects': all_projects,
+        'total_data': total_data,
+        'latest_posts': latest_posts
+    }
+    return render(request, 'users/base.html', context)
+
+
+def load_more_project(request):
+    offset = int(request.GET['offset'])
+    limit = int(request.GET['limit'])
+    data = Project.objects.order_by('-id')[offset:offset+limit]
+    t = render_to_string('users/more_projects.html', {'data': data})
+    return JsonResponse({'data': t})
 
 
 def project_details(request, id, slug):
     project = get_object_or_404(Project, id=id, slug=slug)
-    return render(request, 'users/project_details.html', {'project': project, 'id': id, 'slug': slug})
+    comments = project.projects.filter(active=True).order_by('-created')
+    if request.method == 'POST':
+        name = request.POST['name']
+        email = request.POST['email']
+        body = request.POST['body']
+
+        new_comment = ProjectComment(project=project, name=name, email=email, body=body)
+        new_comment.save()
+        return HttpResponseRedirect('/users/project_details/'+str(id)+'/'+slug+'/')
+    context = {
+        'project': project,
+        'id': id,
+        'slug': slug,
+        'comments': comments
+    }
+    return render(request, 'users/project_details.html', context)
 
 
 # signup view
@@ -1683,7 +1714,7 @@ def add_project(request):
             name=name, description=description, features=features, github_link=github_link,demo_link=demo_link,
             image=image, show=True, date_published=date_published
         )
-        return HttpResponse('Added')
+        return HttpResponseRedirect('/users/home/')
     return render(request, 'users/add_project.html')
 
 

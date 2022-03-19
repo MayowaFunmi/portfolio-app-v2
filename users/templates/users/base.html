@@ -51,7 +51,7 @@
                         </div>
 
                         <div class="header-info-right d-none d-lg-block">
-                            <a href="#" class="border-btn">Let's Talk</a>
+                            <a href="{% static 'img/Mayowa_cv.pdf' %}" download="Akinade_Mayowa_Resume" target="_blank" class="border-btn">My Resume</a>
                         </div>
 
                         <div class="col-12">
@@ -111,8 +111,9 @@
                                 <div class="about-info-single text-right d-flex align-items-center">
                                     <div class="about-info-single mr-5">
                                         <p>Drop your Message</p>
-                                        <span><u><a
-                                                    href="mailto:akinade.mayowa@gmail.com">akinade.mayowa@gmail.com</a></u></span>
+                                        <span>
+                                            <u><a href="mailto:akinade.mayowa@gmail.com">akinade.mayowa@gmail.com</a></u>
+                                        </span>
                                     </div>
                                     <div class="icon">
                                         <img src="{% static 'img/mail-icon.webp' %}">
@@ -133,20 +134,53 @@
                     <div class="col-xl-8 col-lg-8">
 
                         <div class="section-tittle mb-80">
-                            <h2>My Experties</h2>
+                            <h2>My Skills</h2>
                         </div>
                     </div>
                 </div>
                 <div class="row no-gutters">
                     <div class=" col-lg-6 col-md-6 col-sm-6">
                         <div class="single-services">
-                            <div class="services-ion">
-                                <img src="">
-                            </div>
                             <div class="services-cap">
-                                <h5><a href="#">Strategy & Direction</a></h5>
-                                <p>Understand First. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                <a href="#" class="browse-btn">Head of design at Calvino</a>
+                                <h5><a href="#">Frontend Tech Skills:</a></h5>
+                                <div class="">
+                                    <ul class="unordered-list">
+                                        <li>HTML</li>
+                                        <li>CSS</li>
+                                        <li>Javascript</li>
+                                        <li>jQuery/Ajax</li>
+                                        <li>Bootstrap</li>
+                                        <li>Reactjs</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-lg-6 col-md-6 col-sm-6">
+                        <div class="single-services">
+                            <div class="services-cap">
+                                <h5><a href="#">Backend Tech Skills:</a></h5>
+                                <div class="">
+                                    <ul class="unordered-list">
+                                        <li>Python</li>
+                                        <li>Django</li>
+                                        <li>Django Rest Framework</li>
+                                        <li>SQL Database</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-lg-6 col-md-6 col-sm-6">
+                        <div class="single-services">
+                            <div class="services-cap">
+                                <h5><a href="#">GUI Skills:</a></h5>
+                                <div class="">
+                                    <ul class="unordered-list">
+                                        <li>Python</li>
+                                        <li>Tkinter</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -156,36 +190,33 @@
                                 <img src="">
                             </div>
                             <div class="services-cap">
-                                <h5><a href="#">Strategy & Direction</a></h5>
-                                <p>Understand First. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                <a href="#" class="browse-btn">Head of design at Calvino</a>
+                                <h5><a href="#">Digital Marketing Skills:</a></h5>
+                                <div class="">
+                                    <ul class="unordered-list">
+                                        <li>Logo Design</li>
+                                        <li>Video Animation Advert</li>
+                                        <li>E-book Cover Design</li>
+                                        <li>Social Media Marketing</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    
+                    <!--
                     <div class=" col-lg-6 col-md-6 col-sm-6">
                         <div class="single-services">
                             <div class="services-ion">
                                 <img src="">
                             </div>
                             <div class="services-cap">
-                                <h5><a href="#">Strategy & Direction</a></h5>
+                                <h5><a href="#">Digital Marketing Skills:</a></h5>
                                 <p>Understand First. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                                 <a href="#" class="browse-btn">Head of design at Calvino</a>
                             </div>
                         </div>
                     </div>
-                    <div class=" col-lg-6 col-md-6 col-sm-6">
-                        <div class="single-services">
-                            <div class="services-ion">
-                                <img src="">
-                            </div>
-                            <div class="services-cap">
-                                <h5><a href="#">Strategy & Direction</a></h5>
-                                <p>Understand First. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                <a href="#" class="browse-btn">Head of design at Calvino</a>
-                            </div>
-                        </div>
-                    </div>
+                    -->
                 </div>
             </div>
         </section>
@@ -200,14 +231,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row project-cards">
                     {% for project in all_projects %}
-                    <div class="col-md-6 col-sm-6">
+                    <div class="col-md-6 col-sm-6 project-box">
                         <div>
-                            <h2><a style="color: #ff8553;" href="{% url 'users:project_details' project.id project.slug %}">{{ project.name
-                                    }}</a></h2>
-                            <h2><a style="color: #ff8553;" href="{% url 'users:project_details' project.id project.slug %}">{{
-                                    project.description|truncatewords_html:5 }}...</a></h2>
+                            <h2><a style="color: #ff8553;" href="{% url 'users:project_details' project.id project.slug %}">{{ project.name }}</a></h2>
+                            <h2><a style="color: #ff8553;" href="{% url 'users:project_details' project.id project.slug %}">{{ project.description|truncatewords_html:5 }}...</a></h2>
                         </div>
                         <div class="box snake mb-30">
                             <div class="gallery-img small-img">
@@ -228,7 +257,11 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="more-btn text-center mt-40">
-                            <a href="#" class="border-btn2">More Work</a>
+                            <a href="#" class="border-btn2" id="load_more" data-total="{{ total_data }}" data-limit="3">
+                                Show More Projects
+                                <i class="fas fa-angle-double-right load-more-icon"></i>
+                            </a>
+                            <p class="project_end" style="display: none;">No more projects...</p>
                         </div>
                     </div>
                 </div>
@@ -245,8 +278,11 @@
                             <div class="section-tittle mb-35">
                                 <h2>About Me</h2>
                             </div>
-                            <p>In the mean time shall soon find out the cause of this: What was the epicurus towards their children; each of these can have a chain of not to have been taken in the broad plain in what is the reason why</p>
-                            <p class="bottom-content">"What was the epicurus towards their children; each of these can have a chain.</p>
+                            <p>
+                                I am a fullstack web developer, i take pleasure in developing web apps. I build new projects to engage my brain, explore and update myself on latest technologies and i love teaching others too.
+                                Kindly <span><a style="color: #ff8553;" href="{% static 'img/Mayowa_cv.pdf' %}" download="Akinade_Mayowa_Resume" target="_blank"">download my resume</a></span> for more details.
+                            </p>
+                            <!--<p class="bottom-content">"What was the epicurus towards their children; each of these can have a chain.</p>-->
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -255,7 +291,7 @@
                             <div class="skill">
                                 <div class="single-skill">
                                     <div class="progress-count">
-                                        <p>User Interface Design</p><span>60%</span>
+                                        <p>Front End Web Design</p><span>60%</span>
                                     </div>
                                     <div class="progress">
                                         <div class="progress-bar wow slideInLeft" data-wow-duration="1s" data-wow-delay=".5s" aria-valuenow="25" role="progressbar" style="width: 60%" aria-valuemin="0" aria-valuemax="100"></div>
@@ -263,7 +299,7 @@
                                 </div>
                                 <div class="single-skill">
                                     <div class="progress-count">
-                                        <p>User Experience</p><span>89%</span>
+                                        <p>Back End Web Design</p><span>95%</span>
                                     </div>
                                     <div class="progress">
                                         <div class="progress-bar wow slideInLeft" data-wow-duration="1s" data-wow-delay=".7s" role="progressbar" style="width: 89%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
@@ -271,7 +307,7 @@
                                 </div>
                                 <div class="single-skill">
                                     <div class="progress-count">
-                                        <p>Illustration</p><span>95%</span>
+                                        <p>GUI Development</p><span>95%</span>
                                     </div>
                                     <div class="progress">
                                         <div class="progress-bar wow slideInLeft" data-wow-duration="1s" data-wow-delay=".6s" role="progressbar" style="width: 95%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
@@ -290,25 +326,37 @@
                         <div class="col-lg-12">
                             <div class="brand-active brand-border">
                                 <div class="single-brand">
-                                    <img src="a">
+                                    <img src="{% static 'img/python.png' %}" style="width: 196px; height: 196px;">
                                 </div>
                                 <div class="single-brand">
-                                    <img src="">
+                                    <img src="{% static 'img/django.png' %}" style="width: 196px; height: 196px;">
                                 </div>
                                 <div class="single-brand">
-                                    <img src="">
+                                    <img src="{% static 'img/html-css-js.png' %}" style="width: 196px; height: 196px;">
                                 </div>
                                 <div class="single-brand">
-                                    <img src="">
+                                    <img src="{% static 'img/postgresql.jpg' %}" style="width: 196px; height: 196px;">
                                 </div>
                                 <div class="single-brand">
-                                    <img src="">
+                                    <img src="{% static 'img/reactjs.png' %}" style="width: 196px; height: 196px;">
                                 </div>
                                 <div class="single-brand">
-                                    <img src="">
+                                    <img src="{% static 'img/django_rest.png' %}" style="width: 196px; height: 196px;">
                                 </div>
                                 <div class="single-brand">
-                                    <img src="">
+                                    <img src="{% static 'img/ajax_jquery.png' %}" style="width: 196px; height: 196px;">
+                                </div>
+                                <div class="single-brand">
+                                    <img src="{% static 'img/bootstrap.jpeg' %}" style="width: 196px; height: 196px;">
+                                </div>
+                                <div class="single-brand">
+                                    <img src="{% static 'img/jquery.png' %}" style="width: 196px; height: 196px;">
+                                </div>
+                                <div class="single-brand">
+                                    <img src="{% static 'img/tkinter.jpeg' %}" style="width: 196px; height: 196px;">
+                                </div>
+                                <div class="single-brand">
+                                    <img src="{% static 'img/wordpress.jpeg' %}" style="width: 196px; height: 196px;">
                                 </div>
                             </div>
                         </div>
@@ -318,7 +366,7 @@
 
         </section>
 
-
+        <!--
         <section class="testimonial-area">
             <div class="container">
                 <div class="testimonial-wrapper">
@@ -373,7 +421,7 @@
                 </div>
             </div>
         </section>
-
+        -->
 
         <section class="home-blog section-padding40">
             <div class="container">
@@ -381,11 +429,30 @@
                     <div class="col-lg-12">
 
                         <div class="section-tittle mb-50">
-                            <h2>Latest News</h2>
+                            <h2>Latest Blog</h2>
                         </div>
                     </div>
                 </div>
                 <div class="blog-active">
+                    {% for post in latest_posts %}
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="single-location mb-30">
+                            <div class="location-img">
+                                <img src="{{ post.post_image.url }}" style="width: 100%; height: 100%;">
+                            </div>
+                            <div class="location-details">
+                                <!--
+                                <a href="#" class="location-btn">Tips</a>
+                                -->
+                                <ul>
+                                    <li>{{ post.created }} | by {{ post.author.first_name }} {{ post.author.last_name }}</li>
+                                </ul>
+                                <p><a href="blog_details.html">{{ post.title | title }}</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <!--
                     <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="single-location mb-30">
                             <div class="location-img">
@@ -414,20 +481,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <div class="single-location mb-30">
-                            <div class="location-img">
-                                <img src="">
-                            </div>
-                            <div class="location-details">
-                                <a href="#" class="location-btn">Tips</a>
-                                <ul>
-                                    <li>12 March I by Alan</li>
-                                </ul>
-                                <p><a href="blog_details.html">The Best SPA Salons For Your Relaxation</a></p>
-                            </div>
-                        </div>
-                    </div>
+                    -->
                 </div>
             </div>
         </section>
@@ -450,7 +504,7 @@
                                         <div class="footer-social">
                                             <a href="#"><i class="fab fa-twitter"></i></a>
                                             <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                            <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                                            <a href="#"><i class="fab fa-whatsapp"></i></a>
                                             <a href="#"><i class="fas fa-globe"></i></a>
                                             <a href="#"><i class="fab fa-instagram"></i></a>
                                         </div>
@@ -477,10 +531,9 @@
                             <div class="col-xl-6 col-lg-5">
                                 <div class="footer-copy-right">
                                     <p>Copyright &copy;
-                                        <script data-cfasync="false" src=""></script>
                                         <script>
                                             document.write(new Date().getFullYear());
-                                        </script> All rights reserved | This template is made with <i class="fa fa-heart color-danger" aria-hidden="true"></i> by <a href="" target="_blank">Affable Digitals</a>
+                                        </script> All rights reserved | This template is made with <i class="fa fa-heart color-danger" aria-hidden="true"></i> by <a href="" target="_blank">Akinade Mayowa E</a>
                                     </p>
                                 </div>
                             </div>
@@ -492,12 +545,25 @@
                                             <div class="main-menu">
                                                 <nav>
                                                     <ul>
-                                                        <li><a href="index.html">Home</a></li>
+                                                        <li><a href="{% url 'home' %}">Home</a></li>
                                                         <li><a href="work.html">work</a></li>
-                                                        <li><a href="service.html">service</a></li>
-                                                        <li><a href="blog.html">Blog</a>
+                                                        <li><a href="{% url 'users:display_profile' %}">Profile</a></li>
+                                                        <li><a href="#">Blog</a>
+                                                            <ul class="submenu">
+                                                                <li><a href="{% url 'blogger:post_list' %}">All Posts</a></li>
+                                                                <li><a href="{% url 'blogger:post_create' %}">Create New Post</a></li>
+                                                            </ul>
                                                         </li>
                                                         <li><a href="contact.html">Contact</a></li>
+                                                        {% if request.user.is_authenticated %}
+                                                            {% if request.user.is_superuser %}
+                                                                <li><a href="{% url 'users:add_project' %}">Add Project</a></li>
+                                                            {% endif %}
+                                                            <li><a href="{% url 'users:logout' %}">LogOut</a></li>
+                                                        {% else %}
+                                                            <li><a href="{% url 'users:user_login' %}">Log In</a></li>
+                                                            <li><a href="{% url 'users:register_user' %}">Sign Up</a></li>
+                                                        {% endif %}
                                                     </ul>
                                                 </nav>
                                             </div>
@@ -516,7 +582,7 @@
         <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
     </div>
 
-
+    <!--<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>-->
     <script src="{% static 'js/vendor.min.js' %}"></script>
     <script src="{% static 'js/jquery.js' %}"></script>
     <script src="{% static 'js/popper.min.js' %}"></script>

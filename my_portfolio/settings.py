@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'users',
     'blogger',
     'ckeditor',
+    'scrapper',
     'cloudinary',
     'cloudinary_storage',
 ]

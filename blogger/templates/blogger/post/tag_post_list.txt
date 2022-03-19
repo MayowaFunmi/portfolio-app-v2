@@ -1,0 +1,172 @@
+{% extends 'users/base.html' %}
+{% load blog_tags %}
+
+{% block title %} Blog Post | Tags {% endblock title %}
+
+{% block content %}
+    <main>
+
+        <div class="hero-area2 d-flex align-items-center">
+            <div class="container">
+                <div class="row ">
+                    <div class="col-xl-12">
+                        <div class="hero-cap pt-50">
+                            <h2>Tags Post List</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="blog_area section-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mb-5 mb-lg-0">
+                        <div class="blog_left_sidebar">
+                            {% if tags_posts %}
+                            {% for post in tags_posts %}
+                            <article class="blog_item">
+                                <div class="blog_item_img">
+                                    {% if post.post_image %}
+                                    <img class="card-img rounded-0" src="{{ post.post_image.url }}" style="max-width: 100%; width: 690px; height: 345px;">
+                                    {% else %}
+                                    <img class="card-img rounded-0" src="{{ post.author.profile.profile_picture.url }}" style="max-width: 100%; width: 690px; height: 345px;">
+                                    {% endif %}
+                                </div>
+                                <div class="blog_details">
+                                    <a class="d-inline-block" href="{{ post.get_absolute_url }}">
+                                        <h2 class="blog-head" style="color: #2d2d2d;">{{ post.title|title }}</h2>
+                                    </a>
+                                    <p>
+                                        {{ post.body | slice:":150" }} ...
+                                        <a href="{{ post.get_absolute_url }}" class="blog_tag" style="background-color: #ff8553; color: #fff; border-radius: 10px;">Read More...</a>
+                                    </p>
+                                    <ul class="blog-info-link">
+                                        <li><a href="{% url 'users:user_profile' post.author.id %}"><i class="fa fa-user"></i>{{ post.author.first_name }} {{ post.author.last_name }}</a></li>
+                                        {% for category in post.categories.all %}
+                                            <li><a href="{% url 'blogger:post_category' category.name %}"><i class="fas fa-user-tag"></i>{{ category.name }}</a></li>
+                                        {% endfor %}
+                                        <li><i class="far fa-clock"></i>{{ post.created }}</li>
+
+                                        {% if post.number_of_comments %}
+                                            {% with post.number_of_comments as total_comments %}
+                                                <li><a href="{{ post.get_absolute_url }}"><i class="fa fa-comments"></i>{{ total_comments }} Comment{{ total_comments|pluralize }}</a></li>
+                                            {% endwith %}
+                                        {% else %}
+                                            <li><i class="fa fa-comments"></i>0 Comment</li>
+                                        {% endif %}
+                                        <li>
+                                            <i class="fas fa-thumbs-up"></i>
+                                            {{ post.total_likes }} Like{{ post.total_likes|pluralize }}
+                                        </li>
+                                    </ul>
+                                    <h4 class="widget_title" style="color: #2d2d2d;">Tags:</h4>
+                                    <ul class="list">
+                                        {% for tag in post.tags.all %}
+                                        <li style="display: inline-block;"><a class="blog_tag" style="background-color: #ff8553; color: #fff; border-radius: 10px;" href="{% url 'blogger:post_tags' tag.title %}">{{ tag.title }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </article>
+                            {% endfor %}
+                            {% else %}
+                                <h2>No blog post is available. Be the first to share a post</h2>
+                            {% endif %}
+                            <nav class="blog-pagination justify-content-center d-flex">
+                                <ul class="pagination">
+                                    {% if tags_posts.has_previous %}
+                                    <li class="page-item">
+                                        <a href="?page={{ tags_posts.previous_page_number }}" class="page-link" aria-label="Previous">
+                                            <i class="fas fa-angle-left"></i>
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                    <li class="page-item active">
+                                        Page {{ tags_posts.number }} of {{ tags_posts.paginator.num_pages }}.
+                                    </li>
+                                    {% if tags_posts.has_next %}
+                                    <li class="page-item">
+                                        <a href="?page={{ tags_posts.next_page_number }}" class="page-link" aria-label="Next">
+                                            <i class="fas fa-angle-right"></i>
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="blog_right_sidebar">
+                            <aside class="single_sidebar_widget search_widget">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" placeholder='Search Blog Posts' name="q" required>
+                                            <div class="input-group-append">
+                                                <button class="btns" type="button"><i class="ti-search"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn" type="submit" name="submit">Search</button>
+                                </form>
+                            </aside>
+                            <aside class="single_sidebar_widget tag_cloud_widget">
+                                <h4 class="widget_title" style="color: #2d2d2d;">Category Clouds</h4>
+                                <ul class="list">
+                                    {% for category in categories %}
+                                    <li>
+                                        <a href="{% url 'blogger:post_category' category.name %}">{{ category }}</a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </aside>
+                            <aside class="single_sidebar_widget popular_post_widget">
+                                <h3 class="widget_title" style="color: #2d2d2d;">Recent Post</h3>
+                                {% show_latest_posts 3 %}
+                            </aside>
+                            <aside class="single_sidebar_widget tag_cloud_widget">
+                                <h4 class="widget_title" style="color: #2d2d2d;">Tag Clouds</h4>
+                                <ul class="list">
+                                    {% for tag in tags %}
+                                    <li>
+                                        <a href="{% url 'blogger:post_tags' tag.title %}">{{ tag }}</a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </aside>
+                            <aside class="single_sidebar_widget instagram_feeds">
+                                <h4 class="widget_title" style="color: #2d2d2d;">Instagram Feeds</h4>
+                                <ul class="instagram_row flex-wrap">
+                                    <li>
+                                        <a href="#">
+                                            <img class="img-fluid"
+                                                src="">
+                                        </a>
+                                    </li>
+                                </ul>
+                            </aside>
+                            <aside class="single_sidebar_widget newsletter_widget">
+                                <h4 class="widget_title" style="color: #2d2d2d;">Newsletter</h4>
+
+                            </aside>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!--
+    <div>
+    {% for post in tags_posts %}
+        <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+        <p class="date">
+            Published {{ post.publish }} by {{ post.author.first_name }} {{ post.author.last_name }} |&nbsp;
+        </p>
+        <p>{{ post.body|safe }}</p>
+    {% endfor %}
+    </div>
+    -->
+{% endblock content %}

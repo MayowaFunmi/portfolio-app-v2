@@ -20,4 +20,5 @@ urlpatterns = [
     path('project_details/<int:id>/<str:slug>/', views.project_details, name='project_details'),
     path('get_city_by_country/', ajax_views.get_city_by_country, name='get_city_by_country'),
     path('display_profile/', views.display_profile, name='display_profile'),
+    path('load_more_project/', views.load_more_project, name='load_more_project'),
 ]

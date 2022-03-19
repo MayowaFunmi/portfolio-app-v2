@@ -1,0 +1,21 @@
+{% for project in data %}
+    <div class="col-md-6 col-sm-6 project-box">
+        <div>
+            <h2><a style="color: #ff8553;" href="{% url 'users:project_details' project.id project.slug %}">{{ project.name }}</a></h2>
+            <h2><a style="color: #ff8553;" href="{% url 'users:project_details' project.id project.slug %}">{{ project.description|truncatewords_html:5 }}...</a></h2>
+        </div>
+        <div class="box snake mb-30">
+            <div class="gallery-img small-img">
+                <img src='{{ project.image.url }}'>
+            </div>
+            <div class="overlay">
+                <div class="overlay-content">
+                    <a href="{{ project.github_link }}" target="_blank" class="img-pop-up">GitHub
+                        Link</a><br>
+                    <a href="{{ project.demo_link }}" target="_blank" class="img-pop-up">Demo
+                        Link</a><br>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
