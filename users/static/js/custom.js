@@ -15,6 +15,48 @@ function showPassword1() {
         x.type = "password";
     }
 };
+// social media share
+
+/*
+    Social Share links:
+
+    Whatsapp:
+    https://api.whatsapp.com/send?text=[post-title] [post-url]
+
+    Facebook:
+    https://www.facebook.com/sharer.php?u=[post-url]
+
+    Twitter:
+    https://twitter.com/share?url=[post-url]&text=[post-title]&via=[via]&hashtags=[hashtags]
+
+    Email:
+    $email = 'mailto:?subject=' . $[post-title] . '&body=Check out this site: '. $[post-url] .'" title="Share by Email';
+
+    LinkedIn
+    https://www.linkedin.com/shareArticle?url=[post-url]&title=[post-title]
+
+    Telegram
+    https://t.me/share/url?url={url}&text={text}
+
+*/
+const facebookBtn = document.querySelector('.facebook-btn')
+const twitterBtn = document.querySelector('.twitter-btn')
+const whatsappBtn = document.querySelector('.whatsapp-btn')
+const linkedinBtn = document.querySelector('.linkedin-btn')
+const telegramBtn = document.querySelector('.telegram-btn')
+
+function init() {
+    let postUrl = encodeURI(document.location.href)
+    let postTitle = encodeURI('Read this post from Akinade Mayowa blog: ')
+
+    facebookBtn.setAttribute('href', `https://www.facebook.com/sharer.php?u=${postUrl}`)
+    twitterBtn.setAttribute('href', `https://twitter.com/share?url=${postUrl}&text=${postTitle}`)
+    whatsappBtn.setAttribute('href', `https://api.whatsapp.com/send?text=${postTitle} ${postUrl}`)
+    linkedinBtn.setAttribute('href', `https://www.linkedin.com/shareArticle?url=${postUrl}&title=${postTitle}`)
+    telegramBtn.setAttribute('href', `https://t.me/share/url?url=${postUrl}&text=${postTitle}`)
+}
+
+init()
 
 $(document).ready(function() {
     $('.nice-select').hide()

@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.loader import render_to_string
 from .forms import CustomUserCreationForm, LoginForm, ContactMeForm, AddProjectForm, ProfileForm
-from .models import Country, City, Profile, Project, ProjectComment
+from .models import Country, City, Profile, Project, ProjectComment, ContactMe
 from .models import UserAccount as User
 from blogger.models import Post
 
@@ -1684,20 +1684,17 @@ def user_logout(request):
 # contact me views
 def contact_me(request):
     if request.method == 'POST':
-        form = ContactMeForm(request.POST)
+        message = request.POST['message']
+        full_name = request.POST['full_name']
+        email = request.POST['email']
+        phone_number = request.POST['phone_number']
+        address = request.POST['address']
+        contact = ContactMe(full_name=full_name, email=email, phone_number=phone_number, address=address, message=message)
+        contact.save()
+        messages.success(request, "Your Message Was Sent Successfully. We'll Get Back Shortly Via Your Email Provided")
+        return render(request, 'users/contact.html')
 
-        try:
-            if form.is_valid():
-                form.save(commit=True)
-                messages.success(request, 'Your Message Has Been Sent Successfully')
-                return HttpResponseRedirect('/users/contact_me/')
-        except:
-            messages.error(request, 'Your Message Failed To Be Sent')
-            return HttpResponseRedirect('/users/contact_me/')
-
-    else:
-        form = ContactMeForm()
-    return render(request, 'users/contact_me.html', {'form': form})
+    return render(request, 'users/contact.html')
 
 
 # add project views
@@ -1784,6 +1781,18 @@ def user_profile(request, id):
         'profile': profile
     }
     return render(request, 'users/user_profile.html', context)
+
+
+def owner_profile(request):
+    # user = get_object_or_404(User, id=id)
+    user = User.objects.get(email='akinade.mayowa@gmail.com')
+    profile = Profile.objects.get(user=user)
+    context = {
+        'user': user,
+        'profile': profile
+    }
+    return render(request, 'users/owner_profile.html', context)
+
 '''
 @login_required
 def profile_create_view(request):
@@ -1794,8 +1803,25 @@ def profile_create_view(request):
             form.save(commit=True)
             return render(request, 'users/user_created.html')
     return render(request, 'users/create_profile.html', {'form': form})
-'''
+    
+def contact_me(request):
+    if request.method == 'POST':
+        form = ContactMeForm(request.POST)
 
+        try:
+            if form.is_valid():
+                form.save(commit=True)
+                messages.success(request, 'Your Message Has Been Sent Successfully')
+                return HttpResponseRedirect('/users/contact_me/')
+        except:
+            messages.error(request, 'Your Message Failed To Be Sent')
+            return HttpResponseRedirect('/users/contact_me/')
+
+    else:
+        form = ContactMeForm()
+    return render(request, 'users/contact_me.html', {'form': form})
+
+'''
 
 def profile_details(request, id):
     user = get_object_or_404(User, id=request.user.id)

@@ -29,7 +29,7 @@
                             <nav>
                                 <ul id="navigation">
                                     <li><a href="{% url 'home' %}">Home</a></li>
-                                    <li><a href="work.html">work</a></li>
+                                    <li><a href="#my_projects">Projects</a></li>
                                     <li><a href="{% url 'users:display_profile' %}">Profile</a></li>
                                     <li><a href="#">Blog</a>
                                         <ul class="submenu">
@@ -37,7 +37,7 @@
                                             <li><a href="{% url 'blogger:post_create' %}">Create New Post</a></li>
                                         </ul>
                                     </li>
-                                    <li><a href="contact.html">Contact</a></li>
+                                    <li><a href="{% url 'users:contact_me' %}">Contact</a></li>
                                     {% if request.user.is_authenticated %} {% if request.user.is_superuser %}
                                     <li><a href="{% url 'users:add_project' %}">Add Project</a></li>
                                     {% endif %}
@@ -226,7 +226,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="section-tittle mb-60">
+                        <div class="section-tittle mb-60" id="my_projects">
                             <h2>My Personal Projects</h2>
                         </div>
                     </div>
@@ -279,7 +279,7 @@
                                 <h2>About Me</h2>
                             </div>
                             <p>
-                                I am a fullstack web developer, i take pleasure in developing web apps. I build new projects to engage my brain, explore and update myself on latest technologies and i love teaching others too.
+                                I am a fullstack web developer. I take pleasure in developing web apps. I build new projects to engage my brain, explore and update myself on latest technologies and i love teaching others too.
                                 Kindly <span><a style="color: #ff8553;" href="{% static 'img/Mayowa_cv.pdf' %}" download="Akinade_Mayowa_Resume" target="_blank"">download my resume</a></span> for more details.
                             </p>
                             <!--<p class="bottom-content">"What was the epicurus towards their children; each of these can have a chain.</p>-->
@@ -498,21 +498,23 @@
                             <div class="row align-items-center justify-content-between">
                                 <div class="col-xl-5 col-lg-6 col-md-10">
                                     <div class="wantToWork-caption">
-                                        <img src="">
-                                        <p>In the mean time shall soon find out the cause of this: What was the epicurus towards their children.
+                                        <!--<img src="">-->
+                                        <p>
+                                            Connect With Me Via Social Media:
                                         </p>
                                         <div class="footer-social">
-                                            <a href="#"><i class="fab fa-twitter"></i></a>
-                                            <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                            <a href="#"><i class="fab fa-whatsapp"></i></a>
-                                            <a href="#"><i class="fas fa-globe"></i></a>
-                                            <a href="#"><i class="fab fa-instagram"></i></a>
+                                            <a href="https://www.twitter.com/mayowaakinade/" target="_blank"><i class="fab fa-twitter"></i></a>
+                                            <a href="https://www.facebook.com/akinademayowa/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                            <a href="https://wa.me/08187669362" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                                            <a href="https://www.linkedin.com/in/mayowaakinade/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                                            <a href="https://www.instagram.com/akinademayowa/" target="_blank"><i class="fab fa-instagram"></i></a>
+                                            <a href="https://www.github.com/MayowaFunmi/" target="_blank"><i class="fab fa-github"></i></a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-xl-5 col-lg-6 col-md-10">
                                     <div class="wantToWork-btn">
-                                        <a href="#" class="btn f-right sm-left mr-5">Let's Talk</a>
+                                        <a href="{% url 'users:contact_me' %}" class="btn f-right sm-left mr-5">Let's Talk</a>
                                         <a href="{% static 'img/Mayowa_cv.pdf' %}" download="Akinade_Mayowa_Resume" target="_blank" class="border-btn white-btn f-right sm-left  mr-5">Download
                                             CV</a>
                                     </div>
@@ -533,7 +535,7 @@
                                     <p>Copyright &copy;
                                         <script>
                                             document.write(new Date().getFullYear());
-                                        </script> All rights reserved | This template is made with <i class="fa fa-heart color-danger" aria-hidden="true"></i> by <a href="" target="_blank">Akinade Mayowa E</a>
+                                        </script> All rights reserved | This website was designed and developed by <a href="{% url 'users:owner_profile' %}">Akinade Mayowa</a>
                                     </p>
                                 </div>
                             </div>
@@ -546,7 +548,7 @@
                                                 <nav>
                                                     <ul>
                                                         <li><a href="{% url 'home' %}">Home</a></li>
-                                                        <li><a href="work.html">work</a></li>
+                                                        <li><a href="#my_projects">Projects</a></li>
                                                         <li><a href="{% url 'users:display_profile' %}">Profile</a></li>
                                                         <li><a href="#">Blog</a>
                                                             <ul class="submenu">
@@ -554,7 +556,7 @@
                                                                 <li><a href="{% url 'blogger:post_create' %}">Create New Post</a></li>
                                                             </ul>
                                                         </li>
-                                                        <li><a href="contact.html">Contact</a></li>
+                                                        <li><a href="{% url 'users:contact_me' %}">Contact</a></li>
                                                         {% if request.user.is_authenticated %}
                                                             {% if request.user.is_superuser %}
                                                                 <li><a href="{% url 'users:add_project' %}">Add Project</a></li>
