@@ -13,9 +13,9 @@
                 <article class="blog_item">
                     <div class="blog_item_img">
                         {% if post.post_image %}
-                            <img class="card-img rounded-0" src="{{ post.post_image.url }}" style="max-width: 100%; width: 690px; height: 345px;">
+                            <img class="card-img rounded-0" src="{{ post.post_image.url }}" style="max-width: 70%;">
                         {% else %}
-                            <img class="card-img rounded-0" src="{{ post.author.profile.profile_picture.url }}" style="max-width: 100%; width: 690px; height: 345px;">
+                            <img class="card-img rounded-0" src="{{ post.author.profile.profile_picture.url }}" style="max-width: 70%;">
                         {% endif %}
                     </div>
                     <div class="blog_details">

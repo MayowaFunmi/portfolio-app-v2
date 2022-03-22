@@ -30,9 +30,9 @@
                             <article class="blog_item">
                                 <div class="blog_item_img">
                                     {% if post.post_image %}
-                                    <img class="card-img rounded-0" src="{{ post.post_image.url }}" style="max-width: 100%; width: 690px; height: 345px;">
+                                    <img class="card-img rounded-0" src="{{ post.post_image.url }}" style="max-width: 70%;">
                                     {% else %}
-                                    <img class="card-img rounded-0" src="{{ post.author.profile.profile_picture.url }}" style="max-width: 100%; width: 690px; height: 345px;">
+                                    <img class="card-img rounded-0" src="{{ post.author.profile.profile_picture.url }}" style="max-width: 70%;">
                                     {% endif %}
                                 </div>
                                 <div class="blog_details">
@@ -137,27 +137,25 @@
                                 </ul>
                             </aside>
                             <aside class="single_sidebar_widget instagram_feeds">
-                                <h4 class="widget_title" style="color: #2d2d2d;">Instagram Feeds</h4>
-                                <ul class="instagram_row flex-wrap">
-                                    <li>
-                                        <a href="#">
-                                            <img class="img-fluid"
-                                                src="">
+                                <h4 class="widget_title" style="color: #2d2d2d;">Most Commented Posts</h4>
+                                {% get_most_commented_posts as most_commented_posts %}
+                                {% for post in most_commented_posts %}
+                                    <div class="media-body">
+                                        <a href="{{ post.get_absolute_url }}">
+                                            <h3 style="color: #2d2d2d;">{{ post.title | slice:":100"}}... | {{ post.number_of_comments }} comment{{ post.number_of_comments|pluralize }}</h3>
                                         </a>
-                                    </li>
-                                </ul>
-                            </aside>
-                            <aside class="single_sidebar_widget newsletter_widget">
-                                <h4 class="widget_title" style="color: #2d2d2d;">Newsletter</h4>
-                                <form action="#">
-                                    <div class="form-group">
-                                        <input type="email" class="form-control" onfocus="this.placeholder = ''"
-                                            onblur="this.placeholder = 'Enter email'" placeholder='Enter email'
-                                            required>
                                     </div>
-                                    <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
-                                        type="submit">Subscribe</button>
-                                </form>
+                                {% endfor %}
+                                
+                                <!--
+                                <ul class="list">
+                                    {% for post in most_commented_posts %}
+                                    <li>
+                                        <a href="{{ post.get_absolute_url }}">{{ post.title|title }}</a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                                -->
                             </aside>
                         </div>
                     </div>

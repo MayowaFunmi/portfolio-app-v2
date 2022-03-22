@@ -9,17 +9,17 @@ class EmailPostForm(forms.Form):
     comments = forms.CharField(required=False, widget=forms.Textarea)
 
 
-choices = Category.objects.all().values_list('name', 'name')
+'''choices = Category.objects.all().values_list('name', 'name')
 choice_list = []
 for item in choices:
     choice_list.append(item)
-
+'''
 
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ('categories', 'title', 'body', 'post_image', 'tags')
-        widgets = {'categories': forms.Select(choices=choice_list)}
+        #widgets = {'categories': forms.Select(choices=choice_list)}
 
 
 class EditPostForm(forms.ModelForm):

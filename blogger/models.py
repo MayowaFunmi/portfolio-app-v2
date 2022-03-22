@@ -3,7 +3,6 @@ import datetime
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.urls import reverse
-from ckeditor.fields import RichTextField
 from django.utils import timezone
 from users.models import UserAccount as User
 
@@ -50,7 +49,7 @@ class Post(models.Model):
     tags = models.ManyToManyField(Tag, related_name='tags')
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')
     post_image = models.ImageField(upload_to='blog_pics/%Y/%m/%d/', null=True, blank=True)
-    body = RichTextField()
+    body = models.TextField()
     categories = models.ManyToManyField(Category, related_name='posts')
     likes = models.ManyToManyField(User, related_name='blog_post')
     publish = models.DateTimeField(auto_now_add=True)
@@ -68,9 +67,7 @@ class Post(models.Model):
 
     def get_days(self):
         current = timezone.now()
-        print('current:', current)
         delta = current - self.created
-        print('diff: ', delta)
         if delta.days <= 1:
             return f'{delta.days} day ago'
         else:

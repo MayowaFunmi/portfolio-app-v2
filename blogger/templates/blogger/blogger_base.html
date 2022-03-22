@@ -70,20 +70,32 @@
                                 </ul>
                             </aside>
                             <aside class="single_sidebar_widget instagram_feeds">
-                                <h4 class="widget_title" style="color: #2d2d2d;">Instagram Feeds</h4>
-                                <ul class="instagram_row flex-wrap">
-                                    <li>
-                                        <a href="#">
-                                            <img class="img-fluid"
-                                                src="">
+                                <h4 class="widget_title" style="color: #2d2d2d;"> 5 Most Commented Posts</h4>
+                                {% get_most_commented_posts as most_commented_posts %}
+                                {% for post in most_commented_posts %}
+                                    <div class="media-body">
+                                        <a href="{{ post.get_absolute_url }}">
+                                            <h3 style="color: #2d2d2d;">{{ post.title | slice:":100"}}... | {{ post.number_of_comments }} comment{{ post.number_of_comments|pluralize }}</h3>
                                         </a>
+                                    </div>
+                                {% endfor %}
+                                
+                                <!--
+                                <ul class="list">
+                                    {% for post in most_commented_posts %}
+                                    <li>
+                                        <a href="{{ post.get_absolute_url }}">{{ post.title|title }}</a>
                                     </li>
+                                    {% endfor %}
                                 </ul>
+                                -->
                             </aside>
+                            <!--
                             <aside class="single_sidebar_widget newsletter_widget">
                                 <h4 class="widget_title" style="color: #2d2d2d;">Newsletter</h4>
                                 
                             </aside>
+                            -->
                         </div>
                     </div>
                 </div>

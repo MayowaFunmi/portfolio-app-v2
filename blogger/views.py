@@ -1,4 +1,4 @@
-from ckeditor_uploader.forms import SearchForm
+from .forms import SearchForm
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank

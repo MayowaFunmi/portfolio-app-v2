@@ -1,9 +1,9 @@
 {% for post in latest_posts %}
 <div class="media post_item">
     {% if post.post_image %}
-        <img class="card-img rounded-0" src="{{ post.post_image.url }}" style="width: 80px; height: 80px;">
+        <img class="card-img rounded-0" src="{{ post.post_image.url }}" style="max-width: 20%;">
     {% else %}
-        <img class="card-img rounded-0" src="{{ post.author.profile.profile_picture.url }}" style="width: 80px; height: 80px;">
+        <img class="card-img rounded-0" src="{{ post.author.profile.profile_picture.url }}" style="max-width: 20%;">
     {% endif %}
     <div class="media-body">
         <a href="{{ post.get_absolute_url }}">
