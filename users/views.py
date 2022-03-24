@@ -1556,19 +1556,29 @@ all_states = [
 
 
 def add_country(request):
-    for country in all_countries:
-        Country.objects.create(alpha_2=country[0], name=country[1])
-    return HttpResponse("Countries Added Successfully")
+    if len(Country.objects.all()) == 0:
+        for country in all_countries:
+            Country.objects.create(alpha_2=country[0], name=country[1])
+            messages.info(request, 'Countries added successfully')
+            return render(request, 'users/messages.html')
+    else:
+        messages.info(request, 'Countries and Cities already available in the database')
+        return render(request, 'users/messages.html')
 
 
 def add_city(request):
-    for state in all_states:
-        for i in range(len(state)):
-            code = state[0][0]
-            name = state[i][1]
-            country = Country.objects.get(alpha_2=code)
-            City.objects.create(country=country, name=name)
-    return HttpResponse("Cities Added Successfully")
+    if len(City.objects.all()) == 0:
+        for state in all_states:
+            for i in range(len(state)):
+                code = state[0][0]
+                name = state[i][1]
+                country = Country.objects.get(alpha_2=code)
+                City.objects.create(country=country, name=name)
+        messages.info(request, 'Cities added successfully')
+        return render(request, 'users/messages.html')
+    else:
+        messages.info(request, 'Countries and Cities already available in the database')
+        return render(request, 'users/messages.html')
 
 
 # AJAX

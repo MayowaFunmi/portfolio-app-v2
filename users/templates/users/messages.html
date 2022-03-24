@@ -1,0 +1,25 @@
+{% extends 'users/base.html' %}
+
+{% block title %} Portfolio | Check Countries And Cities{% endblock title %}
+
+{% block content %}
+    <main>
+        <div class="hero-area2 d-flex align-items-center">
+            <div class="container">
+                <div class="row ">
+                    <div class="col-xl-12">
+                        <div class="hero-cap pt-50">
+                            <div id="form-messages">
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <h2 style="text-align: center; background-color: red; color: white;">{{ message }}</h2>
+                                {% endfor %}
+                            {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock content %}
