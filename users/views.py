@@ -1556,29 +1556,21 @@ all_states = [
 
 
 def add_country(request):
-    if len(Country.objects.all()) == 0:
-        for country in all_countries:
-            Country.objects.create(alpha_2=country[0], name=country[1])
-            messages.info(request, 'Countries added successfully')
-            return render(request, 'users/messages.html')
-    else:
-        messages.info(request, 'Countries and Cities already available in the database')
-        return render(request, 'users/messages.html')
+    for country in all_countries:
+        Country.objects.create(alpha_2=country[0], name=country[1])
+    messages.info(request, 'Countries added successfully')
+    return render(request, 'users/messages.html')
 
 
 def add_city(request):
-    if len(City.objects.all()) == 0:
-        for state in all_states:
-            for i in range(len(state)):
-                code = state[0][0]
-                name = state[i][1]
-                country = Country.objects.get(alpha_2=code)
-                City.objects.create(country=country, name=name)
-        messages.info(request, 'Cities added successfully')
-        return render(request, 'users/messages.html')
-    else:
-        messages.info(request, 'Countries and Cities already available in the database')
-        return render(request, 'users/messages.html')
+    for state in all_states:
+        for i in range(len(state)):
+            code = state[0][0]
+            name = state[i][1]
+            country = Country.objects.get(alpha_2=code)
+            City.objects.create(country=country, name=name)
+    messages.info(request, 'Countries added successfully')
+    return HttpResponse("Cities Added Successfully")
 
 
 # AJAX
@@ -1590,6 +1582,8 @@ def load_cities(request):
 
 
 def home(request):
+    print(len(Country.objects.all()))
+    print(len(City.objects.all()))
     all_projects = Project.objects.all().order_by('-id')[:2]
     total_data = Project.objects.count()
     latest_posts = Post.published.order_by('-publish')[:2]
