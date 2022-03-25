@@ -437,7 +437,7 @@
                     <div class="col-lg-12">
 
                         <div class="section-tittle mb-50">
-                            <h2>Latest Blog</h2>
+                            <h2>Latest Blog Posts</h2>
                         </div>
                     </div>
                 </div>
@@ -453,14 +453,15 @@
                                 <a href="#" class="location-btn">Tips</a>
                                 -->
                                 <ul>
-                                    <li>{{ post.created }} | by {{ post.author.first_name }} {{ post.author.last_name }}</li>
+                                    <li style="color: black">{{ post.created }} | by {{ post.author.first_name }} {{ post.author.last_name }}</li>
                                 </ul>
-                                <p><a href="{{ post.get_absolute_url }}">{{ post.title | title }}</a></p>
+                                <p><a style="color: black;" href="{{ post.get_absolute_url }}">{{ post.title | title }}</a></p>
                             </div>
                         </div>
                     </div>
                     {% endfor %}
                     <!--
+                    #ff8553;
                     <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="single-location mb-30">
                             <div class="location-img">
