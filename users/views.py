@@ -1582,8 +1582,6 @@ def load_cities(request):
 
 
 def home(request):
-    print(len(Country.objects.all()))
-    print(len(City.objects.all()))
     all_projects = Project.objects.all().order_by('-id')[:2]
     total_data = Project.objects.count()
     latest_posts = Post.published.order_by('-publish')[:2]

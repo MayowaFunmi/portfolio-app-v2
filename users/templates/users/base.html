@@ -455,7 +455,7 @@
                                 <ul>
                                     <li>{{ post.created }} | by {{ post.author.first_name }} {{ post.author.last_name }}</li>
                                 </ul>
-                                <p><a href="blog_details.html">{{ post.title | title }}</a></p>
+                                <p><a href="{{ post.get_absolute_url }}">{{ post.title | title }}</a></p>
                             </div>
                         </div>
                     </div>

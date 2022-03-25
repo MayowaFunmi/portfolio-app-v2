@@ -8,13 +8,20 @@ from .models import Post, Comment, Category, Tag
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'slug', 'author', 'created', 'publish', 'status')
+    list_display = ('title', 'slug', 'author', 'created', 'publish', 'status', 'created')
     list_filter = ('status', 'created', 'publish', 'author')
     search_fields = ('title', 'body')
     prepopulated_fields = {'slug': ('title',)}
     raw_id_fields = ('author',)
     date_hierarchy = 'publish'
     ordering = ('status', 'publish')
+
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ('title', 'slug')
+    list_filter = ('title', 'slug')
+    prepopulated_fields = {'slug': ('title',)}
 
 
 @admin.register(Comment)
@@ -25,7 +32,6 @@ class CommentAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Category)
-admin.site.register(Tag)
 admin.site.site_header = 'My Portfolio App Admin'
 
 '''
