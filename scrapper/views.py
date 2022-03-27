@@ -40,3 +40,49 @@ weather_data = {
             'temp': soup.find('span', attrs={'id': 'wob_tm'}).text
         }
 '''
+
+
+def movie_home(request):
+    url = "https://www.imdb.com/chart/moviemeter/"
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, "html.parser")
+    table = soup.find('table',  {'class': 'chart full-width'})
+    rows = table.find_all('tr')
+    movies = []
+    for row in rows:
+        image = row.find('img')
+        if image:
+            movies.append(image['alt'])
+            movies.append(image['src'])
+    return render(request, "scrapper/movies.html", {'movies': movies})
+
+
+def naija_news(request):
+    url = 'https://www.nairaland.com/'
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, "html.parser")
+    table = soup.find_all('table', {'class': 'boards'})
+    data = table[1].find('td', {'class': 'featured'})
+    #print(data('a'))
+    data_links = data('a')
+    links = []
+    link = []
+    x = ''
+    for link in data_links:
+        links.append(link('b'))
+    #print(links)
+    for i in links:
+        print(' '.join(i))
+    return render(request, 'scrapper/naija_news.html')
+
+
+def weather_app(request):
+    if 'city' in request.GET:
+        city_name = request.GET.get('city')
+        city = city_name.replace(' ', '+')
+        url = f'https://www.google.com/search?q=weather+in+{city}'
+        response = requests.get(url)
+        soup = BeautifulSoup(response.content, "html.parser")
+        name = soup.find_all('div', {'class': 'wob_loc q8U8x'})
+        print(name)
+    return render(request, 'scrapper/home.html', {'weather': 'weather_data'})
