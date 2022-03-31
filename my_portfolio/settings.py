@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'scrapper',
     'cloudinary',
     'cloudinary_storage',
+    'user_visit',
 ]
 
 MIDDLEWARE = [
@@ -59,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'user_visit.middleware.UserVisitMiddleware',
 ]
 
 ROOT_URLCONF = 'my_portfolio.urls'
@@ -164,3 +166,4 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 AUTH_USER_MODEL = 'users.UserAccount'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
