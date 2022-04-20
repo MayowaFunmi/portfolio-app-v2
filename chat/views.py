@@ -129,7 +129,7 @@ class SavePrivate(LoginRequiredMixin, View):
         sender = request.GET.get('sender', None)
         user_rec = request.GET.get('receiver', None)
         message = request.GET.get('message', None)
-        receiver = User.objects.get(email=user_rec)
+        receiver = User.objects.get(username=user_rec)
 
         obj = PrivateChat.objects.create(
             sender=request.user,
@@ -149,18 +149,18 @@ class SavePrivate(LoginRequiredMixin, View):
         return JsonResponse(data)
 
 
-class GetPrivate(View):
+class GetPrivate(LoginRequiredMixin ,View):
     def get(self, request):
         sender = request.GET.get('sender', None)
         receiver = request.GET.get('receiver', None)
         messages = []
         data = {}
-        print('sender = ', sender)
-        print('receiver = ', receiver)
-        user_sender = User.objects.get(username=sender)
-        user_receiver = User.objects.get(username=receiver)
-        if PrivateChat.objects.filter(sender__username=user_sender, receiver__username=user_receiver).exists():
-            pri_msg = PrivateChat.objects.filter(sender__username=user_sender, receiver__username=user_receiver)[:30]
+        # user_sender = User.objects.get(username=sender)
+        # user_receiver = User.objects.get(username=receiver)
+        # print('sender = ', user_sender)
+        # print('receiver = ', user_receiver)
+        if PrivateChat.objects.filter(sender__username=sender, receiver__username=receiver).exists():
+            pri_msg = PrivateChat.objects.filter(sender__username=sender, receiver__username=receiver)[:30]
 
             for i in range(len(pri_msg)):
                 x = pri_msg[i].date
@@ -176,8 +176,8 @@ class GetPrivate(View):
                     'receiver': receiver
                 }
                 messages.append(msg)
-        if PrivateChat.objects.filter(sender__username=user_receiver, receiver__username=user_sender).exists():
-            pri_msg = PrivateChat.objects.filter(sender__username=user_receiver, receiver__username=user_sender)[:30]
+        if PrivateChat.objects.filter(sender__username=receiver, receiver__username=sender).exists():
+            pri_msg = PrivateChat.objects.filter(sender__username=receiver, receiver__username=sender)[:30]
             for i in range(len(pri_msg)):
                 x = pri_msg[i].date
                 datex = x.strftime("%d-%m-%Y")

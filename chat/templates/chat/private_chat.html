@@ -193,20 +193,24 @@
                     
                     <div>
                         <form class="form-contact contact_form" id="private_form">
-                        {% csrf_token %}
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <input type="hidden" name="sender" id="sender" value="{{ sender }}" readonly><br>
-                                <input type="hidden" name="receiver" id="receiver" value="{{ receiver }}" readonly><br> {% for chat in chat_details %}
-                                <input type="hidden" name="chat_id" id="chat_id" value="{{ chat.id }}" readonly> {% endfor %}
-                                <br>
-                                <input type="text" class="form-control" name="message" id="message" placeholder="Enter Your Message Here ..." required>
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <input type="hidden" name="sender" id="sender" value="{{ sender }}" readonly><br>
+                                    <input type="hidden" name="receiver" id="receiver" value="{{ receiver }}" readonly><br>
+                                    <input type="hidden" name="active_user" value="{{ request.user.username }}">
+                                    <!--{% for chat in chat_details %}
+                                        <input type="hidden" name="chat_id" id="chat_id" value="{{ chat.id }}" readonly>
+                                    {% endfor %}-->
+                                    <br>
+                                    <input type="text" class="form-control" name="message" id="message" placeholder="Enter Your Message Here ..." required>
+                                </div>
                             </div>
-                        </div>
-                    </form>
-                    <div class="form-group mt-3 ">
-                        <button type="submit" class="button button-contactForm boxed-btn ">Send Chat</button>
-                    </div>
+                            <div class="form-group mt-3 ">
+                                <button type="submit" class="button button-contactForm boxed-btn ">Send Chat</button>
+                            </div>
+                        </form>
+                    
                     </div>
 				</div>
 			</div>
