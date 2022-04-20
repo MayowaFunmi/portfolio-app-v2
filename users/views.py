@@ -1627,6 +1627,7 @@ def signup_view(request):
         email = request.POST['email']
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
+        username = request.POST['username']
         password = request.POST['password']
         password1 = request.POST['password1']
 
@@ -1638,14 +1639,17 @@ def signup_view(request):
         if User.objects.filter(email=email).exists():
             messages.error(request, 'Your Email, ' + email + ', Already Exists. Please Try Another Email')
             return render(request, 'users/signup.html')
+        if User.objects.filter(username=username).exists():
+            messages.error(request, 'Your Username, ' + username + ', Already Exists. Please Try Another Username')
+            return render(request, 'users/signup.html')
 
         # validate password
         if password != password1:
             messages.error(request, "Your Passwords Don't match")
             return render(request, 'users/signup.html')
-        User.objects.create_user(email=email, first_name=first_name, last_name=last_name, password=password)
+        User.objects.create_user(email=email, first_name=first_name, last_name=last_name, username=username, password=password)
         context = {
-            'email': email, 'first_name': first_name, 'last_name': last_name
+            'email': email, 'first_name': first_name, 'last_name': last_name, 'username': username
         }
         return render(request, 'users/signup_success.html', context)
 
@@ -1770,7 +1774,7 @@ def display_profile(request):
             'email': request.user, 'gender': profile.gender, 'date_of_birth': profile.date_of_birth, 'country': profile.country,
             'city': profile.city, 'address': profile.address, 'phone_number': profile.phone_number, 'profile_picture': profile.profile_picture,
             'interest': profile.interest, 'about_me': profile.about_me, 'created': profile.created, 'updated': profile.updated,
-            'first_name': user.first_name, 'last_name': user.last_name, 'date_joined': user.date_joined
+            'first_name': user.first_name, 'last_name': user.last_name, 'username': user.username, 'date_joined': user.date_joined
         }
         return render(request, 'users/display_profile.html', context)
 

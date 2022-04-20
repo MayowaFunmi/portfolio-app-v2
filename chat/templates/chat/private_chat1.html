@@ -1,0 +1,55 @@
+{% extends 'users/base.html' %} {% block title %} Portfolio | Chat Page{% endblock title %} {% block content %}
+<main>
+    <div class="hero-area2 d-flex align-items-center">
+        <div class="container">
+            <div class="row ">
+                <div class="col-xl-12">
+                    <div class="hero-cap pt-50">
+                        <h2>Private Chat Page</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="contact-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="contact-title">Private Chat between {{ sender }} and {{ receiver }}.</h2>
+                    <div id="form-messages">
+                        {% if messages %} {% for message in messages %}
+                        <h2 style="text-align: center; background-color: red; color: white;">{{ message }}</h2>
+                        {% endfor %} {% endif %}
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <form class="form-contact contact_form" id="private_form">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <input type="hidden" name="sender" id="sender" value="{{ sender }}" readonly><br>
+                                <input type="hidden" name="receiver" id="receiver" value="{{ receiver }}" readonly><br> {% for chat in chat_details %}
+                                <input type="hidden" name="chat_id" id="chat_id" value="{{ chat.id }}" readonly> {% endfor %}
+                                <br>
+                                <input type="text" class="form-control" name="message" id="message" placeholder="Enter Your Message Here ..." required>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="form-group mt-3 ">
+                        <button type="submit" class="button button-contactForm boxed-btn ">Send Chat</button>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="media contact-info" id="display_chats">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock content %} {% block js %}
+<script src="{% static 'js/private_chat.js' %}"></script>
+{% endblock js %}

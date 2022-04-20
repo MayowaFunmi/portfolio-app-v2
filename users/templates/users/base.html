@@ -9,9 +9,10 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.jpg' %}">
-
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block style %}
+    {% endblock style %}
 </head>
 
 <body>
@@ -22,7 +23,7 @@
                     <div class="menu-wrapper d-flex align-items-center justify-content-between">
 
                         <div class="logo">
-                            <a href="index.html"><img style="width: 200px; height:50px;" src="{% static 'img/ads_logo.jpg' %}"></a>
+                            <a href="#"><img style="width: 200px; height:50px;" src="{% static 'img/ads_logo.jpg' %}"></a>
                         </div>
 
                         <div class="main-menu f-right d-none d-lg-block">
@@ -37,6 +38,7 @@
                                             <li><a href="{% url 'blogger:post_create' %}">Create New Post</a></li>
                                         </ul>
                                     </li>
+                                    <li><a href="{% url 'chat:home' %}">Chat</a></li>
                                     <li><a href="{% url 'users:contact_me' %}">Contact</a></li>
                                     {% if request.user.is_authenticated %} {% if request.user.is_superuser %}
                                     <li><a href="{% url 'users:add_project' %}">Add Project</a></li>
@@ -282,7 +284,7 @@
                             </div>
                             <p>
                                 I am a fullstack web developer. I take pleasure in developing web apps. I build new projects to engage my brain, explore and update myself on latest technologies and i love teaching others too.
-                                Kindly <span><a style="color: #ff8553;" href="{% static 'img/Mayowa_cv.pdf' %}" download="Akinade_Mayowa_Resume" target="_blank"">download my resume</a></span> for more details.
+                                Kindly <span><a style="color: #ff8553;" href="{% static 'img/Mayowa_cv.pdf' %}" download="Akinade_Mayowa_Resume" target="_blank">download my resume</a></span> for more details.
                             </p>
                             <!--<p class="bottom-content">"What was the epicurus towards their children; each of these can have a chain.</p>-->
                         </div>
@@ -603,8 +605,8 @@
     <script src="{% static 'js/jquery.slicknav.min.js' %}"></script>
     <script src="{% static 'js/jquery.form.js' %}"></script>
     <script src="{% static 'js/custom.js' %}"></script>
-    <script src="https://kit.fontawesome.com/77561532e1.js" crossorigin="anonymous"></script>
     {% block js %} {% endblock js %}
+    <script src="https://kit.fontawesome.com/77561532e1.js" crossorigin="anonymous"></script>
     <script>
         eval(mod_pagespeed_ayYoDTF2HC);
     </script>

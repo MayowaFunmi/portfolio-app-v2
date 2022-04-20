@@ -65,14 +65,16 @@ def naija_news(request):
     data = table[1].find('td', {'class': 'featured'})
     #print(data('a'))
     data_links = data('a')
-    links = []
-    link = []
+    nested_lists = []
+    text = []
     x = ''
     for link in data_links:
-        links.append(link('b'))
-    #print(links)
-    for i in links:
-        print(' '.join(i))
+        nested_lists.append(link('b'))
+    #print(links)   # nested links
+    for single in nested_lists:
+        res = list(map(lambda x: "".join(x), single))
+        res = ''.join(res)
+        print(res)
     return render(request, 'scrapper/naija_news.html')
 
 

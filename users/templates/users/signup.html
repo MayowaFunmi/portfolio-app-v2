@@ -33,26 +33,32 @@
                         <form class="form-contact contact_form" method="post">
                             {% csrf_token %}
                             <div class="row">
-                                <div class="col-12">
+                                <div class="col-sm-6">
                                     <div class="form-group">
-                                        <input class="form-control" name="email" id="email" type="email" placeholder="Enter Your Email Address">
+                                        <input class="form-control" name="email" id="email" type="email" placeholder="Enter Your Email Address" required>
                                     </div>
                                 </div>
                                 
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <input class="form-control valid" name="first_name" id="first_name" type="text" placeholder="Enter Your First Name">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <input class="form-control valid" name="last_name" id="last_name" type="text" placeholder="Enter Your Surname">
+                                        <input class="form-control valid" name="username" id="username" type="text" placeholder="Enter Your Username" required>
                                     </div>
                                 </div>
                                 
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <input class="form-control valid" name="password" id="password" type="password" placeholder="Enter Your Password">
+                                        <input class="form-control valid" name="first_name" id="first_name" type="text" placeholder="Enter Your First Name" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input class="form-control valid" name="last_name" id="last_name" type="text" placeholder="Enter Your Surname" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input class="form-control valid" name="password" id="password" type="password" placeholder="Enter Your Password" required>
                                         <div class="switch-wrap d-flex justify-content-between">
                                             <p style="margin-top: 10px;">Show Password</p>
                                             <div class="confirm-switch">
@@ -64,7 +70,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <input class="form-control valid" name="password1" id="password1" type="password" placeholder="Enter Your Password Again">
+                                        <input class="form-control valid" name="password1" id="password1" type="password" placeholder="Enter Your Password Again" required>
                                         <div class="switch-wrap d-flex justify-content-between">
                                             <p style="margin-top: 10px;">Show Password</p>
                                             <div class="confirm-switch">

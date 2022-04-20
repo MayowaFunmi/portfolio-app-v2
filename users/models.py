@@ -10,40 +10,43 @@ from django.template.defaultfilters import slugify
 class UserAccountManager(BaseUserManager):
     use_in_migrations = True
 
-    def _create_user(self, email, first_name, last_name, password, **extra_fields):
+    def _create_user(self, email, first_name, last_name, password, username, **extra_fields):
         if first_name is None:
             raise ValueError('Users should have First Name')
         if last_name is None:
             raise ValueError('Users should have Last Name')
+        if username is None:
+            raise ValueError('Users should have Username')
         if email is None:
             raise ValueError('Users should have an Email Address')
         if password is None:
             raise ValueError('Password cannot be empty')
         email = self.normalize_email(email)
-        user = self.model(first_name=first_name, last_name=last_name, email=email, **extra_fields)
+        user = self.model(first_name=first_name, last_name=last_name, email=email, username=username, **extra_fields)
         user.set_password(password)
         user.is_active = True
         user.save(using=self._db)
         return user
 
-    def create_user(self, email, first_name, last_name, password, **extra_fields):
+    def create_user(self, email, first_name, last_name, username, password, **extra_fields):
         extra_fields.setdefault('is_superuser', False)
-        return self._create_user(email, first_name, last_name, password, **extra_fields)
+        return self._create_user(email, first_name, last_name, username, password, **extra_fields)
 
-    def create_superuser(self, email, first_name, last_name, password, **extra_fields):
+    def create_superuser(self, email, first_name, last_name, username, password, **extra_fields):
         extra_fields.setdefault('is_superuser', True)
         extra_fields.setdefault('is_staff', True)
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
         if extra_fields.get('is_staff') is not True:
             raise ValueError('Staff must have is_staff=True.')
-        return self._create_user(email, first_name, last_name, password, **extra_fields)
+        return self._create_user(email, first_name, last_name, username, password, **extra_fields)
 
 
 class UserAccount(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True, db_index=True, verbose_name="Email")
     first_name = models.CharField(max_length=255, verbose_name="First Name")
     last_name = models.CharField(max_length=255, verbose_name="Last Name")
+    username = models.CharField(max_length=50, verbose_name='Username', null=True, blank=True, unique=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
@@ -63,7 +66,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
         return f'{self.last_name} {self.first_name}'
 
     def get_short_name(self):
-        return self.first_name
+        return self.username
 
     def email_user(self, subject, message, from_email=None, **kwargs):
         '''

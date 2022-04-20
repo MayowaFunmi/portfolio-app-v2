@@ -1,0 +1,54 @@
+{% extends 'users/base.html' %} {% block title %} Portfolio | Chat Page{% endblock title %} {% block content %}
+<main>
+    <div class="hero-area2 d-flex align-items-center">
+        <div class="container">
+            <div class="row ">
+                <div class="col-xl-12">
+                    <div class="hero-cap pt-50">
+                        <h2>Chat Room - {{ room_name }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="contact-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!--<h2 class="contact-title">{{ username }} chat page</h2>-->
+                    <h2 class="contact-title">{{ room_name }} chat page</h2>
+                </div>
+                <div class="col-lg-6">
+                    <input type="hidden" name="room_name" value="{{ room_name }}">
+                    <form class="form-contact contact_form" id="post_form">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <input type="hidden" name="username" id="username" value="{{ username }}" readonly><br>
+                                {% for room in room_details %}
+                                    <input class="form-control" type="hidden" name="room_id" id="room_id" value="{{ room.id }}" readonly>
+                                {% endfor %}
+                                <br>
+                                <input type="text" class="form-control" name="message" id="message" placeholder="Enter Your Message Here ..." required>
+                            </div>
+                        </div>
+                        <div class="form-group mt-3 ">
+                            <button type="submit" class="button button-contactForm boxed-btn ">Send Chat</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="media contact-info" id="display_chats" style="display: flex; flex-direction: column;">
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock content %}
+{% block js %}
+    <script src="{% static 'js/room.js' %}"></script>
+{% endblock js %}
