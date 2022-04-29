@@ -149,19 +149,16 @@ class SavePrivate(LoginRequiredMixin, View):
         return JsonResponse(data)
 
 
-class GetPrivate(LoginRequiredMixin ,View):
+class GetPrivate(LoginRequiredMixin, View):
     def get(self, request):
-        sender = request.GET.get('sender', None)
+        sender = request.GET.get('sender', None)    # change the sender from logged in user to the sender of a message
+        # 
         receiver = request.GET.get('receiver', None)
         messages = []
         data = {}
-        # user_sender = User.objects.get(username=sender)
-        # user_receiver = User.objects.get(username=receiver)
-        # print('sender = ', user_sender)
-        # print('receiver = ', user_receiver)
+
         if PrivateChat.objects.filter(sender__username=sender, receiver__username=receiver).exists():
             pri_msg = PrivateChat.objects.filter(sender__username=sender, receiver__username=receiver)[:30]
-
             for i in range(len(pri_msg)):
                 x = pri_msg[i].date
                 datex = x.strftime("%d-%m-%Y")

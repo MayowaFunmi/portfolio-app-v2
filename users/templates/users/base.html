@@ -6,13 +6,11 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>{% block title %}Affable Digital Services | Home{% endblock %}</title>
-    <meta name="description" content="">
+    <meta name="description" content="Portfolio Site - Fullstack Akinade Mayowa, SOftware Engineer / Developer">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.jpg' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    {% block style %}
-    {% endblock style %}
 </head>
 
 <body>
@@ -31,6 +29,7 @@
                                 <ul id="navigation">
                                     <li><a href="{% url 'home' %}">Home</a></li>
                                     <li><a href="#my_projects">Projects</a></li>
+                                    <li><a href="{% url 'scrapper:news' %}">News</a></li>
                                     <li><a href="{% url 'users:display_profile' %}">Profile</a></li>
                                     <li><a href="#">Blog</a>
                                         <ul class="submenu">

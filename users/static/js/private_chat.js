@@ -9,7 +9,7 @@ $(document).ready(function() {
     //var chatId = $('input[name="room_id"]').val();
     //var message = $('textarea#message').val();
     //var display_chats = $('#display_chats')
-    var display_chats = $('.msg_card_body')
+    var display_chats = $('.msger-chat')
 
     setInterval(function() {
         $.ajax({
@@ -20,33 +20,32 @@ $(document).ready(function() {
             },
             dataType: 'json',
             success: function(data) {
-                console.log(data)
+                console.log('active_user = ', active_user)
+                console.log('sender = ', sender)
+                console.log('receiver = ', receiver)
+
                 display_chats.empty();
                 var data_msg = data.private_details
                     // separate sender from receiver chats
-                if (active_user == sender) {
-                    data_msg.map(x => {
-                        display_chats.append(`
-                            <div class="d-flex justify-content-end mb-4">
-                                <div class="msg_cotainer_send">
+
+                data_msg.map(x => {
+                    display_chats.append(`
+                        <div class="msg right-msg">
+                            <div class="msg-bubble">
+                                <div class="msg-info">
+                                    <div class="msg-info-name">${receiver}</div>
+                                    <div class="msg-info-time">${x.date}</div>
+                                </div>
+        
+                                <div class="msg-text">
                                     ${x.message}
-                                    <span class="msg_time">${x.date}</span>
                                 </div>
                             </div>
-                        `)
-                    })
-                } else {
-                    data_msg.map(x => {
-                        display_chats.append(`
-                            <div class="d-flex justify-content-start mb-4">
-                                <div class="msg_cotainer">
-                                    ${x.message}
-                                    <span class="msg_time">${x.date}</span>
-                                </div>
-                            </div>
-                        `)
-                    })
-                }
+                        </div>
+
+                    `)
+                })
+
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR);

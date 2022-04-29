@@ -1,10 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'users/base.html' %}
+{% load blog_tags %}
 
-</body>
-</html>
+{% block title %} Portfolio | News Page{% endblock title %}
+
+{% block content %}
+    <main>
+        <div class="hero-area2 d-flex align-items-center">
+            <div class="container">
+                <div class="row ">
+                    <div class="col-xl-12">
+                        <div class="hero-cap pt-50">
+                            <h2>News Page</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="blog_area section-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 mb-5 mb-lg-0">
+                        <div class="blog_left_sidebar">
+                            {% if res_list %}
+                                    <article class="blog_item">
+                                        <div class="blog_details">
+                                            <h2 class="blog-head">Naija News:</h2>
+                                        </div>
+                                        <ul>
+                                            {% for news in res_list %}
+                                                <li>{{ news }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </article>
+                            {% else %}
+                                <h3>Bad or no connection. please check your internet connection</h3>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <div class="blog_right_sidebar">
+                            <article class="blog_item">
+                                <div class="blog_details">
+                                    <h2 class="blog-head">Sports News: Coming Shortly. Watch Out!!!</h2>
+                                </div>
+                                
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+{% endblock content %}

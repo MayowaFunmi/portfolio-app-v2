@@ -58,24 +58,32 @@ def movie_home(request):
 
 
 def naija_news(request):
-    url = 'https://www.nairaland.com/'
-    response = requests.get(url)
-    soup = BeautifulSoup(response.content, "html.parser")
-    table = soup.find_all('table', {'class': 'boards'})
-    data = table[1].find('td', {'class': 'featured'})
-    #print(data('a'))
-    data_links = data('a')
-    nested_lists = []
-    text = []
-    x = ''
-    for link in data_links:
-        nested_lists.append(link('b'))
-    #print(links)   # nested links
-    for single in nested_lists:
-        res = list(map(lambda x: "".join(x), single))
-        res = ''.join(res)
-        print(res)
-    return render(request, 'scrapper/naija_news.html')
+    try:
+        res_list = []
+        url = 'https://www.nairaland.com/'
+        response = requests.get(url)
+        soup = BeautifulSoup(response.content, "html.parser")
+        table = soup.find_all('table', {'class': 'boards'})
+        data = table[1].find('td', {'class': 'featured'})
+        #print(data('a'))
+        data_links = data('a')  # get all <a></a> tags as elements of a single link
+        nested_lists = []
+        elem = []
+        x = ''
+        for link in data_links:
+            elem.append(link)
+            #nested_lists.append(link('b'))
+        #print(elem)
+        for each in elem[:65]:
+            res = list(map(lambda x: "".join(x), each))
+            res = ''.join(res)
+            res_list.append(res)
+        context = {
+            'res_list': res_list
+        }
+        return render(request, 'scrapper/naija_news.html', context)
+    except:
+        return render(request, 'scrapper/naija_news.html')
 
 
 def weather_app(request):
