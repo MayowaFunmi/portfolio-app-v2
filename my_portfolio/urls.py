@@ -32,6 +32,7 @@ urlpatterns = [
     path('blogger/', include('blogger.urls', namespace='blogger')),
     path('scraper/', include('scrapper.urls', namespace='scrapper')),
     path('chat/', include('chat.urls', namespace='chat')),
+    path('weather/', include('automation.urls', namespace='weather')),
     path('sitemap.xml/', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap')
 ]
 if settings.DEBUG:

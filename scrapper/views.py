@@ -93,6 +93,6 @@ def weather_app(request):
         url = f'https://www.google.com/search?q=weather+in+{city}'
         response = requests.get(url)
         soup = BeautifulSoup(response.content, "html.parser")
-        name = soup.find_all('div', {'class': 'wob_loc q8U8x'})
+        name = soup.find('div', {'class': 'VQF4g'})
         print(name)
     return render(request, 'scrapper/home.html', {'weather': 'weather_data'})

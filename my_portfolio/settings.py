@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 from decouple import config
 import cloudinary
@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'users',
     'blogger',
     'chat',
+    #'django_celery_beat',
+    'automation',
     #'ckeditor',
     'scrapper',
     'cloudinary',
@@ -52,6 +54,19 @@ INSTALLED_APPS = [
     'user_visit',
 ]
 
+
+#Celery, Celery Beat and Redis settings
+'''
+CELERY_BROKER_URL = config("CELERY_BROKER", "redis://redis:6379")
+CELERY_RESULT_BACKEND = config("CELERY_BACKEND", "redis://redis:6379")
+if CELERY_RESULT_BACKEND == 'django-db':
+    INSTALLED_APPS += ['django_celery_results',]
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Europe/London'
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+'''
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -168,3 +183,5 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 AUTH_USER_MODEL = 'users.UserAccount'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+WEATHER_API_KEY = config('WEATHER_API_KEY')

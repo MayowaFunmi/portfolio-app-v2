@@ -1,0 +1,78 @@
+{% extends 'users/base.html' %} {% block title %} Portfolio | Weather Page{% endblock title %} {% block content %}
+<main>
+    <div class="hero-area2 d-flex align-items-center">
+        <div class="container">
+            <div class="row ">
+                <div class="col-xl-12">
+                    <div class="hero-cap pt-50">
+                        <h2>Weather Page</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="contact-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="contact-title">Get the weather details of any city in the world!!!</h2>
+                    <div id="form-messages">
+                        {% if messages %} {% for message in messages %}
+                        <h2 style="text-align: center; background-color: red; color: white;">{{ message }}</h2>
+                        {% endfor %} {% endif %}
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <form class="form-contact contact_form" id="weather_form" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>Enter the name of a city e.g ibadan, lagos, london, etc</label>
+                                <div class="form-group">
+                                    <input class="form-control" name="room_name" id="room_name" type="text" placeholder="Name of city...">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mt-3 ">
+                            <button id="btn_send" type="submit" class="button button-contactForm boxed-btn ">Show Weather Details</button>
+                        </div>
+                    </form>
+                    
+                    <div id="weather_detail">
+                        <h2 class="contact-title">Weather Report Shows Here:</h2>
+                        <div id="result_page" style="display: none;">
+                        
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 offset-lg-1 ">
+                    <div class="media contact-info ">
+                        <span class="contact-info__icon "><i class="ti-home "></i></span>
+                        <div class="media-body ">
+                            <h3>Oyo State, Nigeria.</h3>
+                            <p>Onibuore Area, Monatan - Iyana Church Road, Ibadan.</p>
+                        </div>
+                    </div>
+                    <div class="media contact-info ">
+                        <span class="contact-info__icon "><i class="ti-tablet "></i></span>
+                        <div class="media-body ">
+                            <h3>+234 8187669362</h3>
+                            <h3>+234 9032055129</h3>
+                            <p>Mon to Sat 8am to 5pm</p>
+                        </div>
+                    </div>
+                    <div class="media contact-info ">
+                        <span class="contact-info__icon "><i class="ti-email "></i></span>
+                        <div class="media-body ">
+                            <h3><a href="mailto:akinade.mayowa@gmail.com ">akinade.mayowa@gmail.com</a></h3>
+                            <p>Send us your query anytime!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock content %}

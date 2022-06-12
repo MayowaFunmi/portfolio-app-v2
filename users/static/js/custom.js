@@ -64,7 +64,7 @@ $(document).ready(function() {
         //console.log('working')
         $('#city_name').empty();
         var selectedCountryId = $('#country_name option:selected').val()
-        console.log(selectedCountryId)
+            //console.log(selectedCountryId)
         $.ajax({
             url: '/users/get_city_by_country/',
             data: {
@@ -108,6 +108,52 @@ $(document).ready(function() {
         });
         // end ajax
     });
+
+
+    // weather form
+    $('form#weather_form').on('submit', function(e) {
+        e.preventDefault()
+        var city = $('input[name="room_name"]').val()
+        var result_page = $('#result_page')
+            // ajax call
+        $.ajax({
+            url: "/weather/weather_details/",
+            data: {
+                'city': city
+            },
+            dataType: 'json',
+            beforeSend: function() {
+                $("#btn_send").text('Fetching Weather Data...');
+                $("#btn_send").attr("disabled", true);
+                $("#btn_send").css('cursor', 'not-allowed');
+            },
+            success: function(detail) {
+                $('#result_page').empty()
+                var weather_detail = detail
+                result_page.append(`
+                    <div>
+                        <h2 class="contact-title">City Name: ${city}</h2>
+                        <h3>Latitude: ${weather_detail.latitude}</h3>
+                        <h3>longitude: ${weather_detail.longitude}</h3>
+                        <h3>Description: ${weather_detail.description}</h3>
+                        <h3>Weather Type: ${weather_detail.weather_type}</h3>
+                        <h3>Temperature: ${weather_detail.temperature} degree celsius</h3>
+                        <h3>Temperature Feels Like: ${weather_detail.feels_like} degree celsius</h3>
+                        <h3>Minimum Temperature: ${weather_detail.min_temp} degree celsius</h3>
+                        <h3>Maximum Temperature: ${weather_detail.max_temp} degree celsius</h3>
+                        <h3>Pressure: ${weather_detail.pressure} hPa</h3>
+                        <h3>Humidity: ${weather_detail.humidity} %</h3>
+                        <h3>Visibility: ${weather_detail.visibility} km</h3>
+                    </div>
+                `)
+                $('#result_page').show()
+                $("#btn_send").text('Show Weather Details');
+                $("#btn_send").attr("disabled", false);
+                $("#btn_send").css('cursor', 'pointer');
+            },
+        })
+
+    })
 })
 
 init()
