@@ -132,7 +132,7 @@ $(document).ready(function() {
                 var weather_detail = detail
                 result_page.append(`
                     <div>
-                        <h2 class="contact-title">City Name: ${city}</h2>
+                        <h2 class="contact-title" style='text-transform: capitalize;'>City Name: ${city}</h2>
                         <h3>Latitude: ${weather_detail.latitude}</h3>
                         <h3>longitude: ${weather_detail.longitude}</h3>
                         <h3>Description: ${weather_detail.description}</h3>
